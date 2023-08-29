@@ -1,8 +1,47 @@
-# Getting Started with Create React App
+# Onobarding App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
 
-## Available Scripts
+- [Overview](#overview)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
+
+## Overview
+
+## Features
+
+    - Creation of pages and components
+    - Implementation of Tailwind CSS
+    - DataGrid investigation and implementation
+    - Fetch handler hook
+    - Role based navigation
+    - Add Comments component with Redux
+
+## Getting Started
+
+### Prerequisites
+
+- Git
+- VS Code (recomended)
+- Node
+- Yarn
+- Knowledge in [React](<(https://reactjs.org/)>)
+
+### Installation
+
+- Clone the repo in you local environment
+- in a terminal put in the path of the repo
+- go into /frontend/onboarding-portal-frontend
+- run the command: `yarn install`
+- validate if there is some error in the output
+
+## Usage
+
+### Available Scripts
 
 In the project directory, you can run:
 
@@ -44,3 +83,17 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Prerequisites
+
+## Technologies Used
+
+- **_@mui/material: ^5.13.6_**
+- **_@mui/x-data-grid: ^6.3.1_**
+- **_axios: ^1.4.0_**
+- **_react: ^18.2.0_**
+- **_react-date-picker: ^10.0.3_**
+- **_react-redux: ^8.0.5_**
+- **_react-router-dom: ^6.10.0_**
+- **_typescript: ^4.4.2_**
+- **_tailwindcss: ^3.3.1_**
