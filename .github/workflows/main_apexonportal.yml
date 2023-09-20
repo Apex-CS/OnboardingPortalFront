@@ -28,7 +28,7 @@ jobs:
           elif [ ! -d ".yarn/cache/" ]; then
             echo ".yarn/cache not found, configuring yarn.."
             echo "Setting yarn version to stable.."
-            yarn set version stable
+            yarn set version 1.22.19
             echo "Checking yarn version.."
             yarn -v
             echo "Running yarn install.."
