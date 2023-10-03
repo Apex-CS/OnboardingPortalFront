@@ -3,15 +3,16 @@ import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import LabelSubtitle from "../../Labels/LabelSubTitle";
+import { Value } from "react-date-picker/dist/cjs/shared/types";
 interface InputDatePickerProps {
-  setDateValue: React.Dispatch<React.SetStateAction<Date>>;
+  onChangeValue?: (newDate: Date) => void;
   dateValue: Date;
   label?: string;
   disabled?: boolean;
 }
 
 const InputDatePicker = ({
-  setDateValue,
+  onChangeValue,
   dateValue,
   label,
   disabled,
@@ -20,8 +21,11 @@ const InputDatePicker = ({
    *
    * @param value Type Date
    */
-  const onChangeEvent = (value: any) => {
-    setDateValue(value);
+  const onChangeEvent = (value: Value) => {
+    const dateValue = new Date(value?.valueOf() as number);
+    if (onChangeValue) {
+      onChangeValue(dateValue);
+    }
   };
 
   return (
