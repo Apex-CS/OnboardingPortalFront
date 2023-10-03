@@ -8,7 +8,6 @@ import {
   Loader,
 } from "../../components";
 import { GridToolbarFilterButton } from "@mui/x-data-grid";
-import { RowsTaskExample } from "../../resources/data/TaskData";
 import { Categories, Comment, HireDetails, User } from "../../types/types";
 import { useEffect, useState } from "react";
 import ReviewItem from "../../components/Inputs/ReviewItem/ReviewItem/ReviewItem";
@@ -19,7 +18,7 @@ import {
   PATH_VIEW_TASK_PAGE,
 } from "../../resources/data/RootPath";
 import { getRandomNumber } from "../../utils/utils";
-import axios from "axios";
+import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
 
 const commentsListExample: Comment[] = [
   {
@@ -40,9 +39,9 @@ const imageExample =
 
 const Tasks = () => {
   const navigate = useNavigate();
-  const url = "https://onportal.azurewebsites.net/api/v1/task/user?user=3";
-  const URL_GET_CATEGORY =
-    "https://onportal.azurewebsites.net/api/v1/categories/all";
+  const userID = 3; // Falta definir como se obtendra este ID
+  const url = `https://onportal.azurewebsites.net/api/v1/task/user?user=${userID}`;
+
   const {
     data: dataTasks,
     fetchData: fetchDataTasks,
@@ -84,13 +83,6 @@ const Tasks = () => {
     getTaskResponse();
   }, []);
 
-  // useEffect(() => {
-  //   try {
-  //     fetchDataCategories();
-  //   } catch (error) {
-  //     console.error("🚀  FetchCategories => error:", error);
-  //   }
-  // }, []);
   const [flagDataLoad, setflagDataLoad] = useState(true);
 
   useEffect(() => {
@@ -355,7 +347,6 @@ const Tasks = () => {
                 toolbar: GridToolbarFilterButton,
               }}
               rows={handlerRowTask()}
-              // rows={FinalrowData}
               columns={COLUMNS}
               initialState={{
                 pagination: {
