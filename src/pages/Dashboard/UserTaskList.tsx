@@ -225,10 +225,9 @@ const Dashboard = () => {
       },
     },
     {
-      field: "",
-      headerName: "",
+      field: "view",
+      headerName: "View",
       width: 50,
-      groupable: true,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
