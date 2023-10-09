@@ -2,6 +2,7 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Button, LabelTitle, Search } from "../../components";
 import { GridToolbarFilterButton } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { PATH_CREATE_TASK_PAGE } from "../../resources/data/RootPath";
 
 interface ManagerDashboardProps {}
 
@@ -116,6 +117,27 @@ const ManagerDashboard = ({}: ManagerDashboardProps) => {
         );
       },
     },
+    {
+      field: "task",
+      headerName: "Create Task",
+      width: 200,
+      groupable: true,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const id = params.row?.id;
+        return (
+          <div className="flex items-center justify-center">
+            <Link to={PATH_CREATE_TASK_PAGE}>
+              <Button
+                icon={<i className="bi bi-send-dash"></i>}
+                customClass="px-3 bg-blue-400 "
+              />
+            </Link>
+          </div>
+        );
+      },
+    },
   ];
 
   return (
@@ -124,7 +146,7 @@ const ManagerDashboard = ({}: ManagerDashboardProps) => {
         <LabelTitle
           textSize="text-3xl"
           customClass="text-blue-400"
-          title="Supervisor Dashboard"
+          title="Manager Dashboard"
         />
       </div>
 

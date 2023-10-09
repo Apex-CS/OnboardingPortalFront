@@ -14,6 +14,7 @@ import ReviewItem from "../../components/Inputs/ReviewItem/ReviewItem/ReviewItem
 import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import {
+  PATH_COMPLETE_TASK_PAGE,
   PATH_EDIT_TASK_PAGE,
   PATH_VIEW_TASK_PAGE,
 } from "../../resources/data/RootPath";
@@ -135,6 +136,14 @@ const Tasks = () => {
 
   const handlerRedirectEditTask = (idTask: number) => {
     navigate(PATH_EDIT_TASK_PAGE.replace("taskId", idTask.toString()));
+  };
+
+  const handlerRedirectCompleteTask = (idTask: number) => {
+    console.log(
+      "🚀 ~ file: Tasks.tsx:143 ~ handlerRedirectCompleteTask ~ ",
+      PATH_COMPLETE_TASK_PAGE.replace("taskId", idTask.toString())
+    );
+    navigate(PATH_COMPLETE_TASK_PAGE.replace("taskId", idTask.toString()));
   };
 
   /**
@@ -316,8 +325,13 @@ const Tasks = () => {
             />
             <Button
               icon={<i className="bi bi-pencil-square"></i>}
-              customClass="bg-red-400 py-1 px-1.5 ml-1"
+              customClass="bg-blue-400 py-1 px-1.5 ml-1"
               onClickHandler={() => handlerRedirectEditTask(id)}
+            />
+            <Button
+              icon={<i className="bi bi-check-all"></i>}
+              customClass="bg-red-400 py-1 px-1.5 ml-1"
+              onClickHandler={() => handlerRedirectCompleteTask(id)}
             />
           </div>
         );

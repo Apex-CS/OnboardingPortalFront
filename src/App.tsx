@@ -21,6 +21,7 @@ import {
   PATH_MANAGER_DASHBOARD,
   PATH_CATEGORY,
   PATH_USER_VIEW,
+  PATH_COMPLETE_TASK_PAGE,
   PATH_CREATE_TASK_PAGE,
 } from "./resources/data/RootPath";
 import "./App.css";
@@ -52,6 +53,7 @@ const AppProvider = () => {
                     <Route path={PATH_ERROR_PAGE} element={<PageNotFound />} />
                     <Route path={PATH_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_EDIT_TASK_PAGE} element={<Task />} />
+                    <Route path={PATH_COMPLETE_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_VIEW_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_CREATE_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_TASKS_PAGE} element={<Tasks />} />

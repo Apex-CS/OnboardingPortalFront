@@ -14,6 +14,7 @@ import {
   PATH_ADMIN_DASHBOARD,
   PATH_MANAGER_DASHBOARD,
   PATH_USER_VIEW,
+  PATH_COMPLETE_TASK_PAGE,
 } from "../resources/data/RootPath";
 interface IRedirectRules {
   route: RouteProps;
@@ -35,6 +36,10 @@ export const RedirectRules: IRedirectRules[] = [
 
   {
     route: { path: PATH_EDIT_TASK_PAGE },
+    only: [Role.MANAGER, Role.ADMIN, Role.USER],
+  },
+  {
+    route: { path: PATH_COMPLETE_TASK_PAGE },
     only: [Role.MANAGER, Role.ADMIN, Role.USER],
   },
   {

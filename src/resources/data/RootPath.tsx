@@ -8,6 +8,7 @@ const PATH_TASK_PAGE = "/task";
 
 const PATH_CREATE_TASK_PAGE = "/create/task";
 const PATH_EDIT_TASK_PAGE = "/edit/task/:taskId";
+const PATH_COMPLETE_TASK_PAGE = "/complete/task/:taskId";
 const PATH_VIEW_TASK_PAGE = "/view/task/:taskId";
 const PATH_TASKS_PAGE = "/tasks";
 
@@ -30,6 +31,7 @@ export {
   PATH_USER_TASK_LIST,
   PATH_TASK_PAGE,
   PATH_CREATE_TASK_PAGE,
+  PATH_COMPLETE_TASK_PAGE,
   PATH_EDIT_TASK_PAGE,
   PATH_VIEW_TASK_PAGE,
   PATH_TASKS_PAGE,
