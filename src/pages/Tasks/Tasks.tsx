@@ -139,10 +139,6 @@ const Tasks = () => {
   };
 
   const handlerRedirectCompleteTask = (idTask: number) => {
-    console.log(
-      "🚀 ~ file: Tasks.tsx:143 ~ handlerRedirectCompleteTask ~ ",
-      PATH_COMPLETE_TASK_PAGE.replace("taskId", idTask.toString())
-    );
     navigate(PATH_COMPLETE_TASK_PAGE.replace("taskId", idTask.toString()));
   };
 

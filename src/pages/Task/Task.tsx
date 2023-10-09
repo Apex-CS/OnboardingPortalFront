@@ -123,10 +123,6 @@ const Task = () => {
     try {
       setUrlComplte((prevValue) => {
         const newURL = prevValue.replace("$isCompleted", "true");
-        console.log(
-          "🚀 ~ file: Task.tsx:152 ~ onSubmitCreateHandler ~ newURL:",
-          newURL
-        );
         return newURL;
       });
       await fetchDataCompleteTask(paramsData);
@@ -139,10 +135,6 @@ const Task = () => {
   };
 
   const onSubmitCreateHandler = async (paramsValue: ParamsType) => {
-    console.log(
-      "🚀 ~ file: Task.tsx:89 ~ onSubmitCreateHandler ~ paramsValue:",
-      paramsValue
-    );
     const completedDate = new Date(params.completionDate).toISOString();
     const paramsData = {
       taskId: 232,
@@ -156,16 +148,8 @@ const Task = () => {
       categoryId: 2,
       userId: 3,
     };
-    console.log(
-      "🚀 ~ file: Task.tsx:100 ~ onSubmitCreateHandler ~ paramsData:",
-      paramsData
-    );
     setUrlComplte((prevValue) => {
       const newURL = prevValue.replace("$isCompleted", "true");
-      console.log(
-        "🚀 ~ file: Task.tsx:152 ~ onSubmitCreateHandler ~ newURL:",
-        newURL
-      );
       return newURL;
     });
     try {
@@ -180,33 +164,25 @@ const Task = () => {
 
   // const onSubmitHandler = async (params: ParamsType) => {
   const onSubmitHandler = async () => {
-    console.log("🚀 ~ file: Task.tsx:118 ~ onSubmitHandler ~ taskId:", taskId);
     if (taskId) {
       // Edit a existing Task
       await onSubmitEditHandler(params);
     } else {
-      console.log("🚀 ~ file: Task.tsx:123 ~ onSubmitHandler ~ entro aqui:");
       // Create a new Task
       await onSubmitCreateHandler(params);
     }
   };
 
   const onCompleteHandler = async () => {
-    console.log("🚀 ~ file: Task.tsx:118 ~ onSubmitHandler ~ taskId:", taskId);
     // Edit a existing Task
     setUrlComplte((prevValue) => {
       const newURL = prevValue.replace("$isCompleted", "true");
-      console.log(
-        "🚀 ~ file: Task.tsx:152 ~ onSubmitCreateHandler ~ newURL:",
-        newURL
-      );
       return newURL;
     });
     await onCompleteTaskHandler(params);
   };
 
   useEffect(() => {
-    console.log("asdnabsdyavdghasvgd", url);
     if (url.includes("/edit")) {
       setFlagPage("edit");
     } else if (url.includes("/view")) {
@@ -220,13 +196,8 @@ const Task = () => {
 
   useEffect(() => {
     if (dataGet) {
-      console.log("🚀 ~ file: Task.tsx:143 ~ useEffect ~ dataGet:", dataGet);
       const responseData = dataGet as ParamsType;
       const formParamData: ParamsType = {} as ParamsType;
-      console.log(
-        "🚀 ~ file: Task.tsx:145 ~ useEffect ~ formParamData:",
-        formParamData
-      );
       formParamData.taskId = responseData.taskId;
       formParamData.description = responseData.description;
       formParamData.name = responseData.name;
