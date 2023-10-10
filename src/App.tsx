@@ -43,7 +43,7 @@ const AppProvider = () => {
           </div>
           <div className="flex flex-col min-h-screen text-base font-sans items-start justify-start my-5 children-container">
             <div className="flex w-full items-center justify-center">
-              <div className="flex w-9/12 flex-col justify-center items-center ">
+              <div className="flex w-10/12 flex-col justify-center items-center ">
                 <RedirectHandler>
                   <Routes>
                     <Route path={PATH_LOGIN} element={<Login />} />
