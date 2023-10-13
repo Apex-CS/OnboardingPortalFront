@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.59d33207.css",
-    "main.js": "/static/js/main.b267c404.js",
-    "static/media/Apex_logo_horizontal_white.png": "/static/media/Apex_logo_horizontal_white.ae512bd79215d59686f7.png",
-    "index.html": "/index.html",
-    "main.59d33207.css.map": "/static/css/main.59d33207.css.map",
-    "main.b267c404.js.map": "/static/js/main.b267c404.js.map"
+    "main.css": "/OnboardingPortalFront/static/css/main.59d33207.css",
+    "main.js": "/OnboardingPortalFront/static/js/main.453176ba.js",
+    "static/media/Apex_logo_horizontal_white.png": "/OnboardingPortalFront/static/media/Apex_logo_horizontal_white.ae512bd79215d59686f7.png",
+    "index.html": "/OnboardingPortalFront/index.html",
+    "main.59d33207.css.map": "/OnboardingPortalFront/static/css/main.59d33207.css.map",
+    "main.453176ba.js.map": "/OnboardingPortalFront/static/js/main.453176ba.js.map"
   },
   "entrypoints": [
     "static/css/main.59d33207.css",
-    "static/js/main.b267c404.js"
+    "static/js/main.453176ba.js"
   ]
 }
