@@ -51,7 +51,7 @@ const TaskList = () => {
     },
   ];
   return (
-    <div className="flex h-auto flex-col m-2 border rounded-t-lg border-zinc-300">
+    <div className="flex h-60 flex-col border rounded-t-lg border-zinc-300">
       <ul className="mx-1 bg-white rounded-t-lg divide-y divide-zinc-200 px-2">
         {listData.map((item) => (
           <TaskElement item={item} />

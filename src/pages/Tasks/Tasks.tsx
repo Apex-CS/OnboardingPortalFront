@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import {
   Button,
@@ -7,17 +8,18 @@ import {
   Loader,
 } from "../../components";
 import { GridToolbarFilterButton } from "@mui/x-data-grid";
-import { RowsTaskExample } from "../../resources/data/TaskData";
-import { Comment, HireDetails, TApiResponse, User } from "../../types/types";
+import { Categories, Comment, HireDetails, User } from "../../types/types";
 import { useEffect, useState } from "react";
 import ReviewItem from "../../components/Inputs/ReviewItem/ReviewItem/ReviewItem";
 import { useFetch } from "../../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import {
+  PATH_COMPLETE_TASK_PAGE,
   PATH_EDIT_TASK_PAGE,
   PATH_VIEW_TASK_PAGE,
 } from "../../resources/data/RootPath";
 import { getRandomNumber } from "../../utils/utils";
+import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
 
 const commentsListExample: Comment[] = [
   {
@@ -38,14 +40,8 @@ const imageExample =
 
 const Tasks = () => {
   const navigate = useNavigate();
-  // const url = "http://localhost:4000/tasks";
-  const url = "https://onportal.azurewebsites.net/api/v1/task/user?user=3";
-  const {
-    data: dataCategory,
-    fetchData: fetchDataCategory,
-    isLoading: isLoadingCategory,
-    error: errorCategory,
-  } = useFetch(url, "GET");
+  const userID = 3; // Falta definir como se obtendra este ID
+  const url = `https://onportal.azurewebsites.net/api/v1/task/user?user=${userID}`;
 
   const {
     data: dataTasks,
@@ -53,6 +49,13 @@ const Tasks = () => {
     isLoading: isLoadingTasks,
     error: errorTasks,
   } = useFetch(url, "GET");
+
+  const {
+    data: dataCategories,
+    fetchData: fetchDataCategories,
+    isLoading: isLoadingCategories,
+    error: errorCategories,
+  } = useFetch(URL_GET_CATEGORY, "GET");
 
   const userInfo: User = {
     userId: 4,
@@ -64,32 +67,49 @@ const Tasks = () => {
   };
 
   const [rowData, setRowData] = useState<any[]>([]);
-
-  useEffect(() => {
-    if (dataTasks !== null) {
-      /* 
-          Al parecer tendre que formatear esta informacion
-          antes de mostarla en el grid
-        */
-      const formatData: TApiResponse[] = dataTasks as TApiResponse[];
-      setRowData(formatData);
-    }
-  }, [dataTasks]);
-
   useEffect(() => {
     const getTaskResponse = async () => {
       try {
         await fetchDataTasks();
       } catch (error) {
-        console.error(
-          "🚀 ~ file: Tasks.tsx:73 ~ getTaskResponse ~ error:",
-          error
-        );
+        console.error("🚀 ~ getTaskResponse ~ error:", error);
         setRowData([]); // set a empty array for RowData
       }
     };
+    try {
+      fetchDataCategories();
+    } catch (error) {
+      console.error("🚀  FetchCategories => error:", error);
+    }
     getTaskResponse();
   }, []);
+
+  const [flagDataLoad, setflagDataLoad] = useState(true);
+
+  useEffect(() => {
+    if (dataTasks !== null && flagDataLoad) {
+      const formatData: any[] = dataTasks as any[];
+      const dataCategoriesList = dataCategories as Categories[];
+      formatData.forEach(async (rowItem) => {
+        try {
+          const categoryID = rowItem.categoryId;
+          dataCategoriesList.forEach((item) => {
+            if (item.id === categoryID) {
+              rowItem.categoryDescription = item.description;
+              return item;
+            }
+          });
+        } catch (error) {
+          console.error(
+            "🚀 ~ file: Tasks.tsx:112 ~ formatData.forEach ~ errorResponse:",
+            error
+          );
+        }
+      });
+      setRowData(formatData);
+      setflagDataLoad(false);
+    }
+  }, [dataTasks, flagDataLoad, rowData]);
 
   const hireDetailsUsers: HireDetails = {
     id: 23,
@@ -118,6 +138,10 @@ const Tasks = () => {
     navigate(PATH_EDIT_TASK_PAGE.replace("taskId", idTask.toString()));
   };
 
+  const handlerRedirectCompleteTask = (idTask: number) => {
+    navigate(PATH_COMPLETE_TASK_PAGE.replace("taskId", idTask.toString()));
+  };
+
   /**
    * Function to return a array of row elements
    * with the correct format for the DataGrid
@@ -127,16 +151,12 @@ const Tasks = () => {
     const rowTasks: any = [];
 
     rowData.forEach((rowHandlerElement) => {
-      console.log(
-        "🚀 ~ file: Tasks.tsx:190 ~ rowData.forEach ~ rowHandlerElement:",
-        rowHandlerElement
-      );
       const taskElementFormated = {
         id: getRandomNumber(),
-        idTask: rowHandlerElement.id,
+        taskId: rowHandlerElement.taskId,
         name: rowHandlerElement.name,
         description: rowHandlerElement.description,
-        categori: rowHandlerElement.categori,
+        categoryDescription: rowHandlerElement.categoryDescription,
         creationDate: new Date(rowHandlerElement.creationDate),
         completionDate: rowHandlerElement.completionDate,
         completed: rowHandlerElement.completed,
@@ -149,6 +169,14 @@ const Tasks = () => {
   };
 
   const COLUMNS: GridColDef[] = [
+    {
+      field: "taskId",
+      headerName: "ID",
+      width: 50,
+      groupable: false,
+      headerAlign: "left",
+      align: "left",
+    },
     {
       field: "name",
       headerName: "Name",
@@ -173,10 +201,6 @@ const Tasks = () => {
       headerAlign: "left",
       align: "center",
       renderCell: (params) => {
-        console.log(
-          "🚀 ~ file: Tasks.tsx:193 ~ Tasks ~ params.required:",
-          params
-        );
         return (
           <div className="flex w-2/4 py-1 items-center justify-center">
             <InputCheckBox
@@ -197,10 +221,6 @@ const Tasks = () => {
       headerAlign: "left",
       align: "center",
       renderCell: (params) => {
-        console.log(
-          "🚀 ~ file: Tasks.tsx:213 ~ Tasks ~ params.completed:",
-          params
-        );
         return (
           <div className="flex w-2/4 py-1 items-center justify-center">
             <InputCheckBox
@@ -220,49 +240,49 @@ const Tasks = () => {
       width: 150,
       headerAlign: "center",
       align: "center",
+      renderCell: (params) => {
+        const value = params.value;
+        const dateValue =
+          value !== null ? new Date(value).toLocaleDateString("en-ca") : null;
+        return (
+          <div className="flex w-2/4 py-1 items-center justify-center">
+            {<h1>{dateValue}</h1>}
+          </div>
+        );
+      },
     },
     {
       field: "completionDate",
       headerName: "Completion Date",
-      type: "date",
       width: 150,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
-        console.log(
-          "🚀 ~ file: Tasks.tsx:213 ~ Tasks ~ params.completed:",
-          params
+        const value = params.value;
+        const dateValue =
+          value !== null ? new Date(value).toLocaleDateString("en-ca") : null;
+        return (
+          <div className="flex w-2/4 py-1 items-center justify-center">
+            {dateValue === null ? <h1>NOT FILL</h1> : <h1>{dateValue}</h1>}
+          </div>
         );
-        const dateValue = params.value;
-        if (dateValue === null)
-          return (
-            <div className="flex w-2/4 py-1 items-center justify-center">
-              {dateValue === null ? <h1>NOT FILL</h1> : <h1>{dateValue}</h1>}
-            </div>
-          );
       },
     },
     {
-      field: "categori",
+      field: "categoryDescription",
       headerName: "Category",
       type: "string",
-      width: 150,
+      width: 250,
       headerAlign: "center",
       align: "center",
-      // renderCell: async (params) => {
-      //   console.log(
-      //     "🚀 ~ file: Tasks.tsx:213 ~ Tasks ~ params.completed:",
-      //     params
-      //   );
-      //   const categoryValue = params.value;
-      //   await fetchDataCategory();
-
-      //   return (
-      //     <div className="flex w-2/4 py-1 items-center justify-center">
-      //       {categoryValue}
-      //     </div>
-      //   );
-      // },
+      renderCell: (params) => {
+        const categoryValue = params.value;
+        return (
+          <div className="flex w-2/4 py-1 items-center justify-center">
+            {categoryValue}
+          </div>
+        );
+      },
     },
 
     {
@@ -285,24 +305,64 @@ const Tasks = () => {
       },
     },
     {
-      field: "actions",
-      headerName: "Actions",
-      width: 100,
+      field: "view",
+      headerName: "View",
+
+      width: 50,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
-        const id = params.row?.id;
+        const id = params.row?.taskId;
         return (
-          <div className="flex flex-row w-full py-1 items-center justify-center">
+          <div className="flex w-2/4 py-1 items-center justify-center">
             <Button
               icon={<i className="bi bi-eye"></i>}
               customClass="bg-green-400 py-1 px-1.5 ml-1"
+              title="View"
               onClickHandler={() => handlerRedirectViewTask(id)}
             />
+          </div>
+        );
+      },
+    },
+    {
+      field: "edit",
+      headerName: "Edit",
+
+      width: 50,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const id = params.row?.taskId;
+        return (
+          <div className="flex w-2/4 py-1 items-center justify-center">
             <Button
               icon={<i className="bi bi-pencil-square"></i>}
-              customClass="bg-red-400 py-1 px-1.5 ml-1"
+              customClass="bg-blue-400 py-1 px-1.5 ml-1"
               onClickHandler={() => handlerRedirectEditTask(id)}
+              title="Edit"
+            />
+          </div>
+        );
+      },
+    },
+    {
+      field: "complete",
+      headerName: "Complete",
+      width: 70,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const id = params.row?.taskId;
+        const isCompleted = params.row?.completed;
+        const colorButton = isCompleted ? "bg-red-400" : "bg-green-400";
+        return (
+          <div className="flex flex-row w-full py-1 items-center justify-center">
+            <Button
+              icon={<i className="bi bi-check-all"></i>}
+              customClass={`${colorButton} py-1 px-1.5 ml-1`}
+              onClickHandler={() => handlerRedirectCompleteTask(id)}
+              title={isCompleted ? `Completed` : `Ready to complete`}
             />
           </div>
         );

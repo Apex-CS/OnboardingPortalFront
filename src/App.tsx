@@ -12,7 +12,7 @@ import { Navbar, Footer } from "./components";
 import {
   PATH_HOME,
   PATH_ERROR_PAGE,
-  PATH_DASHBOARD,
+  PATH_USER_TASK_LIST,
   PATH_TASK_PAGE,
   PATH_EDIT_TASK_PAGE,
   PATH_VIEW_TASK_PAGE,
@@ -21,6 +21,8 @@ import {
   PATH_MANAGER_DASHBOARD,
   PATH_CATEGORY,
   PATH_USER_VIEW,
+  PATH_COMPLETE_TASK_PAGE,
+  PATH_CREATE_TASK_PAGE,
 } from "./resources/data/RootPath";
 import "./App.css";
 import { Provider } from "react-redux";
@@ -41,17 +43,19 @@ const AppProvider = () => {
           </div>
           <div className="flex flex-col min-h-screen text-base font-sans items-start justify-start my-5 children-container">
             <div className="flex w-full items-center justify-center">
-              <div className="flex w-9/12 flex-col justify-center items-center ">
+              <div className="flex w-10/12 flex-col justify-center items-center ">
                 <RedirectHandler>
                   <Routes>
                     <Route path={PATH_LOGIN} element={<Login />} />
                     <Route path={PATH_HOME} element={<User />} />
                     <Route path={PATH_USER_VIEW} element={<User />} />
-                    <Route path={PATH_DASHBOARD} element={<Dashboard />} />
+                    <Route path={PATH_USER_TASK_LIST} element={<Dashboard />} />
                     <Route path={PATH_ERROR_PAGE} element={<PageNotFound />} />
                     <Route path={PATH_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_EDIT_TASK_PAGE} element={<Task />} />
+                    <Route path={PATH_COMPLETE_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_VIEW_TASK_PAGE} element={<Task />} />
+                    <Route path={PATH_CREATE_TASK_PAGE} element={<Task />} />
                     <Route path={PATH_TASKS_PAGE} element={<Tasks />} />
                     <Route path={PATH_CATEGORY} element={<Category />} />
                     <Route

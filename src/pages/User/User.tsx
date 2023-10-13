@@ -88,7 +88,7 @@ const Home = () => {
         <div className="w-3/4">
           <UserStatus />
         </div>
-        <div className="w-1/4">
+        <div className="w-1/4 pl-4">
           <TaskList />
         </div>
       </div>
@@ -121,7 +121,7 @@ const Home = () => {
             )}
           </>
         </div>
-        <div className="w-1/4">
+        <div className="w-1/4 pl-4">
           <UsefullLinks />
         </div>
       </div>

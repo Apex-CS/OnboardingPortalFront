@@ -10,11 +10,7 @@ export type ParamsType = {
   creationDate: Date;
   completionDate: Date;
   comments?: string;
-  categoryId: {
-    id: 0;
-    name: string;
-    description: string;
-  };
+  categoryId: number;
 };
 
 interface ParamsContextProps {

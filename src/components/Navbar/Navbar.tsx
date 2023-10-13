@@ -12,7 +12,7 @@ import { Role } from "../../types/users";
 import { redirectDefaultPage } from "../../utils/utilsTS";
 import {
   PATH_ADMIN_DASHBOARD,
-  PATH_DASHBOARD,
+  PATH_USER_TASK_LIST,
   PATH_LOGIN,
   PATH_MANAGER_DASHBOARD,
 } from "../../resources/data/RootPath";
@@ -65,7 +65,7 @@ function Navbar() {
         });
         break;
       case Role.USER:
-        setDashboardURL(PATH_DASHBOARD);
+        setDashboardURL(PATH_USER_TASK_LIST);
         setDataHeader((prev) => {
           const newArray = [
             {
@@ -74,7 +74,7 @@ function Navbar() {
               key: getRandomNumber(RANDOM_KEY_NUMBER),
             },
             {
-              title: "Dashboard",
+              title: "Task List",
               href: dashboardURL,
               key: getRandomNumber(RANDOM_KEY_NUMBER),
             },
