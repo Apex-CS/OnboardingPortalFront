@@ -305,29 +305,64 @@ const Tasks = () => {
       },
     },
     {
-      field: "actions",
-      headerName: "Actions",
-      width: 100,
+      field: "view",
+      headerName: "View",
+
+      width: 50,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
         const id = params.row?.taskId;
         return (
-          <div className="flex flex-row w-full py-1 items-center justify-center">
+          <div className="flex w-2/4 py-1 items-center justify-center">
             <Button
               icon={<i className="bi bi-eye"></i>}
               customClass="bg-green-400 py-1 px-1.5 ml-1"
+              title="View"
               onClickHandler={() => handlerRedirectViewTask(id)}
             />
+          </div>
+        );
+      },
+    },
+    {
+      field: "edit",
+      headerName: "Edit",
+
+      width: 50,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const id = params.row?.taskId;
+        return (
+          <div className="flex w-2/4 py-1 items-center justify-center">
             <Button
               icon={<i className="bi bi-pencil-square"></i>}
               customClass="bg-blue-400 py-1 px-1.5 ml-1"
               onClickHandler={() => handlerRedirectEditTask(id)}
+              title="Edit"
             />
+          </div>
+        );
+      },
+    },
+    {
+      field: "complete",
+      headerName: "Complete",
+      width: 70,
+      headerAlign: "center",
+      align: "center",
+      renderCell: (params) => {
+        const id = params.row?.taskId;
+        const isCompleted = params.row?.completed;
+        const colorButton = isCompleted ? "bg-red-400" : "bg-green-400";
+        return (
+          <div className="flex flex-row w-full py-1 items-center justify-center">
             <Button
               icon={<i className="bi bi-check-all"></i>}
-              customClass="bg-red-400 py-1 px-1.5 ml-1"
+              customClass={`${colorButton} py-1 px-1.5 ml-1`}
               onClickHandler={() => handlerRedirectCompleteTask(id)}
+              title={isCompleted ? `Completed` : `Ready to complete`}
             />
           </div>
         );

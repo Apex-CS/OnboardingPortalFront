@@ -36,7 +36,7 @@ export const RedirectRules: IRedirectRules[] = [
 
   {
     route: { path: PATH_EDIT_TASK_PAGE },
-    only: [Role.MANAGER, Role.ADMIN, Role.USER],
+    only: [Role.MANAGER, Role.ADMIN],
   },
   {
     route: { path: PATH_COMPLETE_TASK_PAGE },
