@@ -47,14 +47,14 @@ const Tasks = () => {
     data: dataTasks,
     fetchData: fetchDataTasks,
     isLoading: isLoadingTasks,
-    error: errorTasks,
+    // error: errorTasks,
   } = useFetch(url, "GET");
 
   const {
     data: dataCategories,
     fetchData: fetchDataCategories,
-    isLoading: isLoadingCategories,
-    error: errorCategories,
+    // isLoading: isLoadingCategories,
+    // error: errorCategories,
   } = useFetch(URL_GET_CATEGORY, "GET");
 
   const userInfo: User = {
@@ -288,7 +288,6 @@ const Tasks = () => {
     {
       field: "comments",
       headerName: "Comments",
-
       width: 70,
       headerAlign: "center",
       align: "center",

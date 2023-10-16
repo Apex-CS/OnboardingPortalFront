@@ -55,8 +55,8 @@ const FormTask = ({
   const {
     data: dataCategories,
     fetchData: fetchDataCategories,
-    isLoading: isLoadingCategories,
-    error: errorCategories,
+    // isLoading: isLoadingCategories,
+    // error: errorCategories,
   } = useFetch(URL_GET_CATEGORY, "GET");
 
   useEffect(() => {

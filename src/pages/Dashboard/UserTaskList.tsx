@@ -16,15 +16,15 @@ const Dashboard = () => {
   const {
     data: dataTasks,
     fetchData: fetchDataTasks,
-    isLoading: isLoadingTasks,
-    error: errorTasks,
+    // isLoading: isLoadingTasks,
+    // error: errorTasks,
   } = useFetch(url, "GET");
 
   const {
     data: dataCategories,
     fetchData: fetchDataCategories,
     isLoading: isLoadingCategories,
-    error: errorCategories,
+    // error: errorCategories,
   } = useFetch(URL_GET_CATEGORY, "GET");
 
   const [rowData, setRowData] = useState<any[]>([]);
@@ -47,7 +47,8 @@ const Dashboard = () => {
     };
     getTaskResponse();
     getCategorys();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // first render run
 
   const [flagDataLoad, setflagDataLoad] = useState(true);
 
@@ -101,19 +102,6 @@ const Dashboard = () => {
     const returnArray: GridRowsProp = rowTasks;
     return returnArray;
   };
-
-  // // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // const handlerTaskValue = (
-  //   params: GridRenderCellParams<any, any, any, GridTreeNodeWithRender>
-  // ) => {
-  //   const item = {
-  //     title: params.row.name,
-  //     url: params.row.tasks.url,
-  //     counter: params.row.tasks.counter,
-  //     limit: params.row.tasks.limit,
-  //   };
-  //   return item;
-  // };
 
   const COLUMNS: GridColDef[] = [
     {
@@ -249,13 +237,6 @@ const Dashboard = () => {
 
   return (
     <div className="flex flex-col items-center justify-start my-5 h-full w-full">
-      {/* <div className="w-11/12 flex items-center justify-end">
-        <Search
-          className="flex flex-row w-2/6"
-          label="Search user"
-          placeHolder="Search user..."
-        />
-      </div> */}
       <div className=" h-4/4 my-5 w-11/12">
         <DataGrid
           slots={{
