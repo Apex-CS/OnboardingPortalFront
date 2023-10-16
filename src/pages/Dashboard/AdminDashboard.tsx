@@ -2,9 +2,7 @@ import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { LabelTitle, Search } from "../../components";
 import { GridToolbarFilterButton } from "@mui/x-data-grid";
 
-interface AdminDashboardProps {}
-
-const AdminDashboard = ({}: AdminDashboardProps) => {
+const AdminDashboard = () => {
   const rows: GridRowsProp = [
     {
       id: 1,
