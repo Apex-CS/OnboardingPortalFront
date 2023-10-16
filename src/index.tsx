@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
 
 ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter basename="/onboarding-apex">
-			<App />
-		</BrowserRouter>
-	</React.StrictMode>,
-	document.getElementById('root')
+  <React.StrictMode>
+    <BrowserRouter basename="/OnboardingPortalFront">
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
