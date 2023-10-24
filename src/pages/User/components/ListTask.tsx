@@ -36,7 +36,7 @@ const ListTask = ({
   return (
     <div className="flex flex-col  mb-5 border rounded-t-md border-zinc-300">
       <div className="flex items-center justify-start rounded-t-md bg-sky-500">
-        <h1 className="text-3xl py-1 text-white">{title}</h1>
+        <h1 className="text-3xl pl-2 py-1 text-white">{title}</h1>
       </div>
       <ul className="mx-1 bg-white rounded-t-lg divide-y divide-zinc-200">
         {listData.map((itemList, index) => (
