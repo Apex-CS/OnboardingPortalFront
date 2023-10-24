@@ -113,3 +113,8 @@ export interface IRedirectRules {
   exact?: boolean;
   only?: Role[];
 }
+
+export interface ReturnData {
+  data: {};
+  error: {};
+}

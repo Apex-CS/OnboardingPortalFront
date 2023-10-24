@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import FormTask from "./components/Form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ParamsContext, ParamsType } from "./context/FormContext";
 import { FormTaskEditExampleData } from "../../resources/data/TaskData";
 import { useFetch } from "../../hooks/useFetch";
 import { Loader } from "../../components";
-
+const GO_BACK_PAGE_VALUE = -1;
 const Task = () => {
   let { taskId } = useParams();
+  const navigate = useNavigate();
   const [flagPage, setFlagPage] = useState("");
   const URL_API_TASK = `https://onportal.azurewebsites.net/api/v1/task`;
   const URL_API_COMPLETE_TASK = taskId
@@ -36,6 +37,7 @@ const Task = () => {
     error: errorPost,
     isLoading: loadingPost,
     fetchData: fetchDataPost,
+    fetchDataResponse: fetchDataResponseTask,
   } = useFetch(URL_API_TASK, "POST");
 
   const {
@@ -77,7 +79,7 @@ const Task = () => {
   const onSubmitEditHandler = async (paramsValue: ParamsType) => {
     const completedDate = params.completionDate
       ? new Date(params.completionDate).toISOString()
-      : new Date();
+      : null;
 
     const paramsData = {
       taskId: params.taskId,
@@ -85,12 +87,16 @@ const Task = () => {
       description: params.description,
       isRequired: params.isRequired,
       completed: params.completed,
-      creationDate: "2023-08-30T18:01:23.099Z",
+      creationDate: params.creationDate,
       completionDate: completedDate,
       comments: "example of comments",
       categoryId: params.categoryId,
       userId: 3,
     };
+    console.log(
+      "🚀 ~ file: Task.tsx:95 ~ onSubmitEditHandler ~ paramsData:",
+      paramsData
+    );
 
     try {
       await fetchDataPut(paramsData);
@@ -113,7 +119,7 @@ const Task = () => {
       description: params.description,
       isRequired: params.isRequired,
       completed: params.completed,
-      creationDate: "2023-08-30T18:01:23.099Z",
+      creationDate: params.creationDate,
       completionDate: completedDate,
       comments: "example of comments",
       categoryId: params.categoryId,
@@ -134,18 +140,17 @@ const Task = () => {
     }
   };
 
-  const onSubmitCreateHandler = async (paramsValue: ParamsType) => {
-    const completedDate = new Date(params.completionDate).toISOString();
+  const onSubmitCreateHandler = async () => {
     const paramsData = {
-      taskId: 232,
-      name: "string",
-      description: "string",
-      isRequired: true,
-      completed: true,
-      creationDate: "2023-10-03T19:31:29.373Z",
-      completionDate: "2023-10-03T19:31:29.373Z",
-      comments: "string",
-      categoryId: 2,
+      taskId: null,
+      name: params.name,
+      description: params.description,
+      isRequired: null,
+      completed: false,
+      creationDate: new Date(),
+      completionDate: null,
+      comments: "example of comments",
+      categoryId: params.categoryId,
       userId: 3,
     };
     setUrlComplte((prevValue) => {
@@ -153,7 +158,10 @@ const Task = () => {
       return newURL;
     });
     try {
-      await fetchDataPost(paramsData);
+      const response = await fetchDataResponseTask(paramsData);
+
+      if (response.error) {
+      }
     } catch (error) {
       console.error(
         "🚀 ~ file: Task.tsx:106 ~ onSubmitCreateHandler ~ error:",
@@ -162,14 +170,22 @@ const Task = () => {
     }
   };
 
-  // const onSubmitHandler = async (params: ParamsType) => {
   const onSubmitHandler = async () => {
     if (taskId) {
       // Edit a existing Task
       await onSubmitEditHandler(params);
+      navigate(GO_BACK_PAGE_VALUE);
     } else {
       // Create a new Task
-      await onSubmitCreateHandler(params);
+      await onSubmitCreateHandler();
+      console.error(errorPost);
+      console.log(
+        "🚀 ~ file: Task.tsx:183 ~ onSubmitHandler ~ errorPost:",
+        errorPost
+      );
+      if (errorPost === undefined || errorPost === null) {
+        navigate(GO_BACK_PAGE_VALUE);
+      }
     }
   };
 
@@ -180,6 +196,7 @@ const Task = () => {
       return newURL;
     });
     await onCompleteTaskHandler(params);
+    navigate(GO_BACK_PAGE_VALUE);
   };
 
   useEffect(() => {
