@@ -3,7 +3,7 @@ import { Button, InputCheckBox } from "../../components";
 import { GridToolbarFilterButton } from "@mui/x-data-grid";
 import { getRandomNumber } from "../../utils/utils";
 import { Link } from "react-router-dom";
-import { PATH_EDIT_TASK_PAGE } from "../../resources/data/RootPath";
+import { PATH_VIEW_TASK_PAGE } from "../../resources/data/RootPath";
 import { useFetch } from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
 import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
@@ -107,15 +107,15 @@ const Dashboard = () => {
     {
       field: "taskId",
       headerName: "Task ID",
-      width: 80,
+      width: 60,
       groupable: true,
       headerAlign: "center",
       align: "center",
     },
     {
       field: "name",
-      headerName: "Task Name",
-      width: 200,
+      headerName: "Name",
+      width: 240,
       groupable: true,
       headerAlign: "center",
       align: "left",
@@ -123,7 +123,7 @@ const Dashboard = () => {
     {
       field: "description",
       headerName: "Description",
-      width: 200,
+      width: 290,
       groupable: true,
       headerAlign: "center",
       align: "left",
@@ -131,7 +131,7 @@ const Dashboard = () => {
     {
       field: "categoryDescription",
       headerName: "Category",
-      width: 250,
+      width: 225,
       groupable: true,
       headerAlign: "center",
       align: "left",
@@ -139,7 +139,7 @@ const Dashboard = () => {
     {
       field: "creationDate",
       headerName: "Creation Date",
-      width: 150,
+      width: 130,
       groupable: true,
       headerAlign: "center",
       align: "center",
@@ -157,7 +157,7 @@ const Dashboard = () => {
     {
       field: "completionDate",
       headerName: "Completion Date",
-      width: 150,
+      width: 140,
       groupable: true,
       headerAlign: "center",
       align: "center",
@@ -215,12 +215,12 @@ const Dashboard = () => {
     {
       field: "view",
       headerName: "View",
-      width: 50,
+      width: 80,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
         const id = params.row?.id;
-        const url = PATH_EDIT_TASK_PAGE.replace("taskId", id);
+        const url = PATH_VIEW_TASK_PAGE.replace("taskId", id);
         return (
           <div className="flex items-center justify-center">
             <Link to={`${url}`}>
