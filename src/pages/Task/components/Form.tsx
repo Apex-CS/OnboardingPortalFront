@@ -242,9 +242,16 @@ const FormTask = ({
                   onCompleteHandlerEvent(event);
                 }}
                 type="button"
-                className="text-white ml-5 bg-green-400 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-grenn-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center dark:hover:bg-grenn-600 dark:focus:ring-grenn-800"
+                className={`text-white ml-5
+                  ${
+                    completed
+                      ? "bg-red-400 hover:bg-red-600 "
+                      : "bg-green-400 hover:bg-green-600 "
+                  }
+                 bg-green-400 hover:bg-green-600 
+                 focus:ring-4 focus:outline-none focus:ring-grenn-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center dark:hover:bg-grenn-600 dark:focus:ring-grenn-800`}
               >
-                Complete Task
+                {completed ? "Cancel Task" : "Complete Task"}
               </button>
             </>
           )}
