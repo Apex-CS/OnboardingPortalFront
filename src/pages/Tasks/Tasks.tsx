@@ -174,13 +174,13 @@ const Tasks = () => {
       headerName: "ID",
       width: 50,
       groupable: false,
-      headerAlign: "left",
-      align: "left",
+      headerAlign: "center",
+      align: "center",
     },
     {
       field: "name",
       headerName: "Name",
-      width: 250,
+      width: 240,
       groupable: false,
       headerAlign: "left",
       align: "left",
@@ -188,7 +188,7 @@ const Tasks = () => {
     {
       field: "description",
       headerName: "Description",
-      width: 300,
+      width: 290,
       groupable: true,
       headerAlign: "left",
       align: "left",
@@ -196,7 +196,7 @@ const Tasks = () => {
     {
       field: "required",
       headerName: "required",
-      width: 90,
+      width: 80,
       groupable: true,
       headerAlign: "left",
       align: "center",
@@ -216,7 +216,7 @@ const Tasks = () => {
     {
       field: "completed",
       headerName: "Completed",
-      width: 90,
+      width: 80,
       groupable: true,
       headerAlign: "left",
       align: "center",
@@ -237,7 +237,7 @@ const Tasks = () => {
       field: "creationDate",
       headerName: "Creation Date",
       type: "date",
-      width: 150,
+      width: 120,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -254,7 +254,7 @@ const Tasks = () => {
     {
       field: "completionDate",
       headerName: "Completion Date",
-      width: 150,
+      width: 140,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -272,7 +272,7 @@ const Tasks = () => {
       field: "categoryDescription",
       headerName: "Category",
       type: "string",
-      width: 250,
+      width: 225,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -288,7 +288,7 @@ const Tasks = () => {
     {
       field: "comments",
       headerName: "Comments",
-      width: 70,
+      width: 90,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -307,7 +307,7 @@ const Tasks = () => {
       field: "view",
       headerName: "View",
 
-      width: 50,
+      width: 60,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -328,7 +328,7 @@ const Tasks = () => {
       field: "edit",
       headerName: "Edit",
 
-      width: 50,
+      width: 60,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -348,7 +348,7 @@ const Tasks = () => {
     {
       field: "complete",
       headerName: "Complete",
-      width: 70,
+      width: 90,
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
@@ -358,7 +358,13 @@ const Tasks = () => {
         return (
           <div className="flex flex-row w-full py-1 items-center justify-center">
             <Button
-              icon={<i className="bi bi-check-all"></i>}
+              icon={
+                <i
+                  className={`bi ${
+                    isCompleted ? "bi-x-octagon" : "bi-check-all"
+                  }`}
+                ></i>
+              }
               customClass={`${colorButton} py-1 px-1.5 ml-1`}
               onClickHandler={() => handlerRedirectCompleteTask(id)}
               title={isCompleted ? `Completed` : `Ready to complete`}
