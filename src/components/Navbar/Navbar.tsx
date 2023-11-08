@@ -177,7 +177,7 @@ function Navbar() {
             ))}
           </ul>
         </div>
-        <div className="flex justify-between items-center">
+        <div className="w-[400px] flex justify-between items-center">
           <Button
             label={role ? role : handlerSessionUserLabel()}
             onClickHandler={signIn}
