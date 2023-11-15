@@ -1,6 +1,6 @@
 export enum Role {
   LOGGED_OUT = "",
   USER = "User",
-  MANAGER = "Manager - Supervisor",
+  MANAGER = "Manager",
   ADMIN = "Admin",
 }

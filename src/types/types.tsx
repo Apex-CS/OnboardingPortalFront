@@ -36,10 +36,11 @@ export interface NotificationsState {
 
 export interface Comment {
   id: number;
-  name: string;
-  body: string;
-  reviewedDate: Date;
-  rating?: number;
+  userId: number;
+  taskId: number;
+  message: string;
+  creationDate: Date | string;
+  updatedDate: Date | string;
 }
 
 export interface CommentsState {

@@ -8,6 +8,7 @@ import { Loader } from "../../components";
 const GO_BACK_PAGE_VALUE = -1;
 const Task = () => {
   let { taskId } = useParams();
+  const userId = 3; //temporaly
   const navigate = useNavigate();
   const [flagPage, setFlagPage] = useState("");
   const URL_API_TASK = `https://onportal.azurewebsites.net/api/v1/task`;
@@ -15,7 +16,7 @@ const Task = () => {
     ? `https://onportal.azurewebsites.net/api/v1/task/completed?taskId=${taskId.substring(
         1,
         taskId.length
-      )}&isCompleted=true`
+      )}`
     : "";
 
   const url = window.location.href;
@@ -91,7 +92,7 @@ const Task = () => {
       completionDate: completedDate,
       comments: "example of comments",
       categoryId: params.categoryId,
-      userId: 3,
+      userId: userId,
     };
     console.log(
       "🚀 ~ file: Task.tsx:95 ~ onSubmitEditHandler ~ paramsData:",
@@ -108,30 +109,9 @@ const Task = () => {
     }
   };
 
-  const onCompleteTaskHandler = async (paramsValue: ParamsType) => {
-    const completedDate = params.completionDate
-      ? new Date(params.completionDate).toISOString()
-      : new Date();
-
-    const paramsData = {
-      taskId: params.taskId,
-      name: params.name,
-      description: params.description,
-      isRequired: params.isRequired,
-      completed: params.completed,
-      creationDate: params.creationDate,
-      completionDate: completedDate,
-      comments: "example of comments",
-      categoryId: params.categoryId,
-      userId: 3,
-    };
-
+  const onCompleteTaskHandler = async () => {
     try {
-      setUrlComplte((prevValue) => {
-        const newURL = prevValue.replace("$isCompleted", "true");
-        return newURL;
-      });
-      await fetchDataCompleteTask(paramsData);
+      await fetchDataCompleteTask();
     } catch (error) {
       console.error(
         "🚀 ~ file: Task.tsx:106 ~ onSubmitEditHandler ~ error:",
@@ -151,16 +131,13 @@ const Task = () => {
       completionDate: null,
       comments: "example of comments",
       categoryId: params.categoryId,
-      userId: 3,
+      userId: userId,
     };
-    setUrlComplte((prevValue) => {
-      const newURL = prevValue.replace("$isCompleted", "true");
-      return newURL;
-    });
     try {
       const response = await fetchDataResponseTask(paramsData);
 
       if (response.error) {
+        return;
       }
     } catch (error) {
       console.error(
@@ -179,10 +156,6 @@ const Task = () => {
       // Create a new Task
       await onSubmitCreateHandler();
       console.error(errorPost);
-      console.log(
-        "🚀 ~ file: Task.tsx:183 ~ onSubmitHandler ~ errorPost:",
-        errorPost
-      );
       if (errorPost === undefined || errorPost === null) {
         navigate(GO_BACK_PAGE_VALUE);
       }
@@ -190,12 +163,7 @@ const Task = () => {
   };
 
   const onCompleteHandler = async () => {
-    // Edit a existing Task
-    setUrlComplte((prevValue) => {
-      const newURL = prevValue.replace("$isCompleted", "true");
-      return newURL;
-    });
-    await onCompleteTaskHandler(params);
+    await onCompleteTaskHandler();
     navigate(GO_BACK_PAGE_VALUE);
   };
 
@@ -224,6 +192,14 @@ const Task = () => {
       formParamData.isRequired = responseData.isRequired;
       formParamData.categoryId = responseData.categoryId;
       updateParams(formParamData);
+
+      setUrlComplte((prevValue) => {
+        if (responseData.completed) {
+          return prevValue + "&isCompleted=false";
+        } else {
+          return prevValue + "&isCompleted=true";
+        }
+      });
     }
   }, [dataGet]);
 
@@ -236,6 +212,7 @@ const Task = () => {
           </div>
         ) : (
           <FormTask
+            userId={userId}
             flagPage={flagPage}
             onSubmitHandler={onSubmitHandler}
             onCompleteHandler={onCompleteHandler}

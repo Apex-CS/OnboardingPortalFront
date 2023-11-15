@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect, ConnectedProps, useDispatch } from "react-redux";
 import {
   fetchComments,
@@ -9,6 +9,7 @@ import { Comment } from "../../../types/types";
 import { CommentBox } from "../../../components";
 import { getRandomNumber } from "../../../utils/utils";
 import ReviewItem from "../../../components/Inputs/ReviewItem/ReviewItem/ReviewItem";
+import { useFetch } from "../../../hooks/useFetch";
 
 const mapState = (state: RootState) => ({
   comments: state.commentsState.comments,
@@ -18,26 +19,64 @@ const mapDispatch = {
   fetchComments,
 };
 
+interface CommentsListParams {
+  userId: number;
+  taskId: number;
+}
+
 const connector = connect(mapState, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
-type CommentsListProps = PropsFromRedux;
 
-const CommentsList: React.FC<CommentsListProps> = ({
+export type Props = CommentsListParams & PropsFromRedux;
+
+const CommentsList: React.FC<Props> = ({
   comments,
   fetchComments,
+  taskId,
+  userId,
 }) => {
+  const urlAPIPostComment = "https://onportal.azurewebsites.net/api/v1/comment";
+  const urlAPIGETComment = `https://onportal.azurewebsites.net/api/v1/comments?taskId=${taskId}`;
+  const [commentsList, setCommentsList] = useState<Comment[]>([]);
+  const {
+    data: dataPostComment,
+    error: errorPostComment,
+    isLoading: loadingPostComment,
+    fetchData: fetchDataPostComment,
+  } = useFetch(urlAPIPostComment, "POST");
+
+  const {
+    data: dataGETComment,
+    error: errorGETComment,
+    isLoading: loadingGETComment,
+    fetchData: fetchDataGETComment,
+  } = useFetch(urlAPIGETComment, "GET");
+
   useEffect(() => {
     fetchComments();
   }, [fetchComments]);
+
+  useEffect(() => {
+    fetchDataGETComment();
+  }, []);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (dataGETComment) {
+      setCommentsList(dataGETComment as Comment[]);
+    }
+  }, [dataGETComment]);
 
   const handlerOnSaveMessage = (titleValue: string, commentValue: string) => {
     const newComment: Comment = {
-      name: titleValue,
-      body: commentValue,
+      message: commentValue,
       id: getRandomNumber(10000),
-      reviewedDate: new Date(),
+      creationDate: new Date(),
+      updatedDate: new Date(),
+      userId: userId,
+      taskId: taskId,
     };
+    fetchDataPostComment(newComment);
     // make the POST CALL to the API to POST the new comment
     dispatch(addComment(newComment));
   };
@@ -50,8 +89,8 @@ const CommentsList: React.FC<CommentsListProps> = ({
       <div className="flex w-full flex-col justify-start items-start mt-5 rounded p-2 border-gray-300 border-2">
         <CommentBox onSaveCommentEvent={handlerOnSaveMessage} />
       </div>
-      <div className="flex flex-col justify-around py-0">
-        {comments.map((comment: Comment) => (
+      <div className="flex w-full flex-col justify-around py-0">
+        {commentsList.map((comment: Comment) => (
           <ReviewItem item={comment} />
         ))}
       </div>

@@ -4,46 +4,31 @@ import { GridToolbarFilterButton } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { PATH_CREATE_TASK_PAGE } from "../../resources/data/RootPath";
 
-interface ManagerDashboardProps {}
-
-// eslint-disable-next-line no-empty-pattern
-const ManagerDashboard = ({}: ManagerDashboardProps) => {
+const ManagerDashboard = () => {
   const rows: GridRowsProp = [
     {
       id: 1,
       name: "Diego",
+      lastName: "Campanero",
+      email: "dcampanero@apexsystems.com",
       practice: "Frontend",
       position: "Consultant",
-      tasks: {
-        title: "string",
-        url: "string",
-        counter: 2,
-        limit: 10,
-      },
     },
     {
       id: 2,
       name: "Oscar",
+      lastName: "Sanchez",
+      email: "osanchez@apexsystems.com",
       practice: "Backend",
       position: "Sr",
-      tasks: {
-        title: "string",
-        url: "string",
-        counter: 8,
-        limit: 10,
-      },
     },
     {
       id: 3,
       name: "Angel",
+      lastName: "Flores",
+      email: "anflores@apexsystems.com",
       practice: "Backend",
       position: "TL",
-      tasks: {
-        title: "string",
-        url: "string",
-        counter: 5,
-        limit: 10,
-      },
     },
   ];
 
@@ -51,13 +36,13 @@ const ManagerDashboard = ({}: ManagerDashboardProps) => {
     {
       field: "name",
       headerName: "Name",
-      width: 200,
+      width: 80,
       groupable: true,
       headerAlign: "center",
       align: "center",
     },
     {
-      field: "lastname",
+      field: "lastName",
       headerName: "Last Name",
       width: 150,
       groupable: true,
@@ -67,15 +52,15 @@ const ManagerDashboard = ({}: ManagerDashboardProps) => {
     {
       field: "email",
       headerName: "Email",
-      width: 150,
+      width: 230,
       groupable: true,
       headerAlign: "center",
-      align: "center",
+      align: "left",
     },
     {
       field: "practice",
       headerName: "Practice",
-      width: 150,
+      width: 120,
       groupable: true,
       headerAlign: "center",
       align: "center",
@@ -83,15 +68,7 @@ const ManagerDashboard = ({}: ManagerDashboardProps) => {
     {
       field: "position",
       headerName: "Position",
-      width: 150,
-      groupable: true,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "category",
-      headerName: "Category",
-      width: 150,
+      width: 120,
       groupable: true,
       headerAlign: "center",
       align: "center",

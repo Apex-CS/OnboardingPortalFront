@@ -19,6 +19,7 @@ interface FormTaskPropst {
   onSubmitHandler: OnSubmitPromise;
   onCompleteHandler: OnSubmitPromise;
   flagPage: string;
+  userId: number;
 }
 
 const inputSelecContainerClass = ` text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-2.5`;
@@ -27,6 +28,7 @@ const FormTask = ({
   onSubmitHandler,
   onCompleteHandler,
   flagPage,
+  userId,
 }: FormTaskPropst) => {
   const { params, setParams } = useContext(ParamsContext);
   const flagEditInputs = flagPage === "view" || flagPage === "complete";
@@ -52,12 +54,10 @@ const FormTask = ({
   const [arrayCategories, setArrayCategories] = useState<Categories[]>([]);
   const [completed, setCompleted] = useState(false);
   const [required, setRequired] = useState(false);
-  const {
-    data: dataCategories,
-    fetchData: fetchDataCategories,
-    // isLoading: isLoadingCategories,
-    // error: errorCategories,
-  } = useFetch(URL_GET_CATEGORY, "GET");
+  const { data: dataCategories, fetchData: fetchDataCategories } = useFetch(
+    URL_GET_CATEGORY,
+    "GET"
+  );
 
   useEffect(() => {
     try {
@@ -171,7 +171,7 @@ const FormTask = ({
 
   return (
     <Provider store={store}>
-      <div>
+      <div className="w-full">
         <form onSubmit={onSubmitHandlerEvent} className="w-full">
           <div className="relative z-0 w-full mb-6 group">
             <InputText
@@ -242,9 +242,16 @@ const FormTask = ({
                   onCompleteHandlerEvent(event);
                 }}
                 type="button"
-                className="text-white ml-5 bg-green-400 hover:bg-green-600 focus:ring-4 focus:outline-none focus:ring-grenn-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center dark:hover:bg-grenn-600 dark:focus:ring-grenn-800"
+                className={`text-white ml-5
+                  ${
+                    completed
+                      ? "bg-red-400 hover:bg-red-600 "
+                      : "bg-green-400 hover:bg-green-600 "
+                  }
+                 bg-green-400 hover:bg-green-600 
+                 focus:ring-4 focus:outline-none focus:ring-grenn-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center dark:hover:bg-grenn-600 dark:focus:ring-grenn-800`}
               >
-                Complete Task
+                {completed ? "Cancel Task" : "Complete Task"}
               </button>
             </>
           )}
@@ -257,7 +264,7 @@ const FormTask = ({
             className="w-full flex flex-col my-2 justify-center items-center"
             id="comments-box"
           >
-            <ComentList />
+            <ComentList userId={userId} taskId={taskId} />
           </div>
         </div>
       </div>
