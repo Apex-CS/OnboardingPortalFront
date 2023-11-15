@@ -21,8 +21,8 @@ function ReviewItem({ item, disableButtons = false }: ReviewItemProps) {
         <div className="box-top">
           <div className="profile">
             <div className="name-user">
-              <strong>{item.name}</strong>
-              <span>{item.reviewedDate.toDateString()}</span>
+              <strong>{item.message}</strong>
+              <span>{item.updatedDate as string}</span>
             </div>
           </div>
           {!disableButtons && (
@@ -51,7 +51,7 @@ function ReviewItem({ item, disableButtons = false }: ReviewItemProps) {
             </div>
           )}
         </div>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">{item.body}</p>
+        <p className="mb-2 text-gray-500 dark:text-gray-400">{item.message}</p>
       </article>
     </div>
   );

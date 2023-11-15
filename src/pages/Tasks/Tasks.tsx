@@ -21,20 +21,6 @@ import {
 import { getRandomNumber } from "../../utils/utils";
 import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
 
-const commentsListExample: Comment[] = [
-  {
-    name: "Carlos Lopez",
-    body: "Please fill your participation in the form for Great Place To Work",
-    id: 2,
-    reviewedDate: new Date(2023, 12, 11),
-  },
-  {
-    name: "Diego Campanero",
-    body: "Sure I finish the form, sorry for the time",
-    id: 8,
-    reviewedDate: new Date(2023, 20, 12),
-  },
-];
 const imageExample =
   "https://1fid.com/wp-content/uploads/2022/06/Twitter-profile-picture-4-1024x1024.jpg";
 
@@ -410,11 +396,11 @@ const Tasks = () => {
         {/* )} */}
       </div>
       <Modal handleCloseModal={handleCloseModal} openModal={openModal}>
-        <div>
+        {/* <div>
           {commentsListExample.map((itemComment) => (
             <ReviewItem disableButtons={true} item={itemComment} />
           ))}
-        </div>
+        </div> */}
       </Modal>
     </div>
   );

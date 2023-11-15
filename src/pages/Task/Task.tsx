@@ -8,6 +8,7 @@ import { Loader } from "../../components";
 const GO_BACK_PAGE_VALUE = -1;
 const Task = () => {
   let { taskId } = useParams();
+  const userId = 3; //temporaly
   const navigate = useNavigate();
   const [flagPage, setFlagPage] = useState("");
   const URL_API_TASK = `https://onportal.azurewebsites.net/api/v1/task`;
@@ -91,7 +92,7 @@ const Task = () => {
       completionDate: completedDate,
       comments: "example of comments",
       categoryId: params.categoryId,
-      userId: 3,
+      userId: userId,
     };
     console.log(
       "🚀 ~ file: Task.tsx:95 ~ onSubmitEditHandler ~ paramsData:",
@@ -130,7 +131,7 @@ const Task = () => {
       completionDate: null,
       comments: "example of comments",
       categoryId: params.categoryId,
-      userId: 3,
+      userId: userId,
     };
     try {
       const response = await fetchDataResponseTask(paramsData);
@@ -211,6 +212,7 @@ const Task = () => {
           </div>
         ) : (
           <FormTask
+            userId={userId}
             flagPage={flagPage}
             onSubmitHandler={onSubmitHandler}
             onCompleteHandler={onCompleteHandler}
