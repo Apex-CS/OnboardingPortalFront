@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { Comment } from "../../../../types/types";
 import "./ReviewItem.css";
-import { DisLike, Like } from "../../../../resources/svg/GeneralIcons";
+import { Pencil, Trash } from "../../../../resources/svg/GeneralIcons";
 import {
   ICON_COLOR_DISLIKE_DEFAULT,
   ICON_COLOR_LIKE_DEFAULT,
@@ -31,7 +31,7 @@ function ReviewItem({ item, disableButtons = false }: ReviewItemProps) {
                 <Button
                   className=""
                   endIcon={
-                    <Like
+                    <Pencil
                       width={ICON_SIZE_DEFAULT}
                       height={ICON_SIZE_DEFAULT}
                       color={ICON_COLOR_LIKE_DEFAULT}
@@ -40,7 +40,7 @@ function ReviewItem({ item, disableButtons = false }: ReviewItemProps) {
                 />
                 <Button
                   endIcon={
-                    <DisLike
+                    <Trash
                       width={ICON_SIZE_DEFAULT}
                       height={ICON_SIZE_DEFAULT}
                       color={ICON_COLOR_DISLIKE_DEFAULT}

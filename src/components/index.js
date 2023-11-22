@@ -11,7 +11,6 @@ import InputSelect from "./Inputs/InputSelect/InputSelect";
 import Button from "./Inputs/Button/Button";
 import Pagination from "./Pagination/Pagination";
 import InputTextArea from "./Inputs/InputTextArea/InputTextArea";
-import TaskElement from "./Task/TaskElement";
 import LabelSubtitle from "./Labels/LabelSubTitle";
 import LabelTitle from "./Labels/LabelTitle";
 import InputCheckBox from "./Inputs/InputCheckbox/InputCheckbox";
@@ -33,7 +32,6 @@ export {
   Button,
   Pagination,
   InputTextArea,
-  TaskElement,
   LabelTitle,
   LabelSubtitle,
   InputCheckBox,

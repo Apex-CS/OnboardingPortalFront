@@ -219,8 +219,7 @@ const Dashboard = () => {
       headerAlign: "center",
       align: "center",
       renderCell: (params) => {
-        const id = params.row?.id;
-        const url = PATH_VIEW_TASK_PAGE.replace("taskId", id);
+        const url = PATH_VIEW_TASK_PAGE.replace("taskId", params.row?.taskId);
         return (
           <div className="flex items-center justify-center">
             <Link to={`${url}`}>
