@@ -6,10 +6,33 @@ import { useEffect, useState } from "react";
 import { Loader } from "../../components";
 import { useNotification } from "../../hooks/useNotification";
 import { useParams } from "react-router-dom";
+import { URL_TASK_USER_ALL } from "../../resources/data/APIPath";
+import { useFetch } from "../../hooks/useFetch";
 
 const Home = () => {
   let { userId } = useParams();
   const [flagView, setFlagView] = useState(false);
+  // const [TaskMeetings, setTaskMeetings] = useState([]);
+  const { data: dataTaskMeetings, fetchData: fetchDataTaskMeetings } = useFetch(
+    URL_TASK_USER_ALL,
+    "GET"
+  );
+
+  useEffect(() => {
+    const getDataTasksMeetingsType = async () => {
+      fetchDataTaskMeetings();
+    };
+
+    getDataTasksMeetingsType();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (dataTaskMeetings) {
+      // setMeetingsTaskData(dataTaskMeetings);
+    }
+  }, [dataTaskMeetings]);
+
   useEffect(() => {
     if (userId) {
       setFlagView(true);
@@ -65,6 +88,9 @@ const Home = () => {
   const [administrativeTaskData, setAdministrativeTaskData] = useState<
     listDataElement[]
   >([]);
+  // const [meetingsTaskData, setMeetingsTaskData] = useState<listDataElement[]>(
+  //   []
+  // );
 
   useEffect(() => {
     const getPersonalTaskData = () => {
@@ -101,6 +127,19 @@ const Home = () => {
                 listData={personalTaskData}
                 setListData={setPersonalTaskData}
                 title="Personal Task"
+                key={getRandomNumber(1000000)}
+              />
+            ) : (
+              <Loader />
+            )}
+          </>
+          <>
+            {personalTaskData.length > 0 ? (
+              <ListTask
+                disabled={flagView}
+                listData={personalTaskData}
+                setListData={setPersonalTaskData}
+                title="Meetings Task"
                 key={getRandomNumber(1000000)}
               />
             ) : (

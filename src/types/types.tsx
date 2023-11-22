@@ -13,10 +13,10 @@ export interface ListTaskProps {
 }
 
 export interface TaskListElementProps {
-  title: string;
-  url?: string;
-  counter: number;
-  limit: number;
+  category: string;
+  completed: number;
+  pending: number;
+  total: number;
 }
 
 export interface TaskElementProps {
