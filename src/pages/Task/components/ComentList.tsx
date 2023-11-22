@@ -24,6 +24,12 @@ interface CommentsListParams {
   taskId: number;
 }
 
+const NoCommentsComponent = () => (
+  <div>
+    <h1>No hay comentarios</h1>
+  </div>
+);
+
 const connector = connect(mapState, mapDispatch);
 type PropsFromRedux = ConnectedProps<typeof connector>;
 
@@ -39,16 +45,16 @@ const CommentsList: React.FC<Props> = ({
   const urlAPIGETComment = `https://onportal.azurewebsites.net/api/v1/comments?taskId=${taskId}`;
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
   const {
-    data: dataPostComment,
-    error: errorPostComment,
-    isLoading: loadingPostComment,
+    // data: dataPostComment,
+    // error: errorPostComment,
+    // isLoading: loadingPostComment,
     fetchData: fetchDataPostComment,
   } = useFetch(urlAPIPostComment, "POST");
 
   const {
     data: dataGETComment,
-    error: errorGETComment,
-    isLoading: loadingGETComment,
+    // error: errorGETComment,
+    // isLoading: loadingGETComment,
     fetchData: fetchDataGETComment,
   } = useFetch(urlAPIGETComment, "GET");
 
@@ -58,11 +64,16 @@ const CommentsList: React.FC<Props> = ({
 
   useEffect(() => {
     fetchDataGETComment();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (dataGETComment) {
+      console.log(
+        "🚀 ~ file: ComentList.tsx:66 ~ useEffect ~ dataGETComment:",
+        dataGETComment
+      );
       setCommentsList(dataGETComment as Comment[]);
     }
   }, [dataGETComment]);
@@ -89,10 +100,16 @@ const CommentsList: React.FC<Props> = ({
       <div className="flex w-full flex-col justify-start items-start mt-5 rounded p-2 border-gray-300 border-2">
         <CommentBox onSaveCommentEvent={handlerOnSaveMessage} />
       </div>
-      <div className="flex w-full flex-col justify-around py-0">
-        {commentsList.map((comment: Comment) => (
-          <ReviewItem item={comment} />
-        ))}
+      <div className="flex w-full flex-col mt-10 justify-around py-0">
+        {commentsList.length > 0 ? (
+          <>
+            {commentsList.map((comment: Comment) => (
+              <ReviewItem item={comment} />
+            ))}
+          </>
+        ) : (
+          <NoCommentsComponent />
+        )}
       </div>
     </div>
   );
