@@ -2,9 +2,11 @@ import { RouteProps } from "react-router-dom";
 import { Role } from "./users";
 
 export type listDataElement = {
+  id: string;
   titleTask: string;
   status: boolean;
   description: string;
+  categoryID?: number;
 };
 
 export interface ListTaskProps {
@@ -68,7 +70,7 @@ export interface Task {
   id: number;
   name: string;
   description: string;
-  categori: string;
+  categoryId: number;
   creationDate: Date;
   completionDate: Date;
   completed: boolean;
