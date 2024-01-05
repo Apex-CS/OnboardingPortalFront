@@ -12,6 +12,12 @@ interface FetchDataResponse<T> {
   fetchDataResponse: (body?: object | null) => Promise<ReturnData>;
 }
 
+interface FetchOptions {
+  method?: string;
+  headers?: { [key: string]: string };
+  // other options...
+}
+
 export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -81,4 +87,15 @@ export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
     }
   };
   return { data, isLoading, error, fetchData, fetchDataResponse };
+}
+
+export async function fetchData<T>(
+  url: string,
+  options?: FetchOptions
+): Promise<T> {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return response.json();
 }
