@@ -1,167 +1,183 @@
-import { listDataElement } from "../../types/types";
-import { TaskList, UsefullLinks, UserStatus } from "./components";
+import {
+  Categories,
+  Task,
+  TaskListElementProps,
+  listDataElement,
+} from "../../types/types";
+import { TaskList, UsefulLinks, UserStatus } from "./components";
 import ListTask from "./components/ListTask";
 import { getRandomNumber } from "../../utils/utils";
 import { useEffect, useState } from "react";
-import { Loader } from "../../components";
-import { useNotification } from "../../hooks/useNotification";
+import { ErrorMessage, Loader } from "../../components";
 import { useParams } from "react-router-dom";
-import { URL_TASK_USER_ALL } from "../../resources/data/APIPath";
-import { useFetch } from "../../hooks/useFetch";
+import { URL_GET_CATEGORY, URL_TASK_COUNT } from "../../resources/data/APIPath";
+import { fetchDataHook, useFetch } from "../../hooks/useFetch";
+
+export type MyObject = {
+  [key: string]: listDataElement[];
+};
+
+function createObject(keys: string[]): MyObject {
+  const myObject: MyObject = {};
+
+  keys.forEach((key) => {
+    myObject[key] = []; // You can set default values or leave it empty
+  });
+
+  return myObject;
+}
 
 const Home = () => {
-  let { userId } = useParams();
-  const [flagView, setFlagView] = useState(false);
-  // const [TaskMeetings, setTaskMeetings] = useState([]);
-  const { data: dataTaskMeetings, fetchData: fetchDataTaskMeetings } = useFetch(
-    URL_TASK_USER_ALL,
+  const [categories, setCategories] = useState<Categories[]>([]);
+  const [allTask, setAllTask] = useState<Task[]>([]);
+  const [listCategoriesData, setListCategoriesData] = useState<MyObject>({});
+  const {
+    isLoading: isLoadingTaskUser,
+    fetchDataResponse: fetchDataAllTaskResponse,
+  } = useFetch(
+    "https://onportal.azurewebsites.net/api/v1/task/user?user=3",
     "GET"
   );
 
-  useEffect(() => {
-    const getDataTasksMeetingsType = async () => {
-      fetchDataTaskMeetings();
-    };
+  const { fetchDataResponse: fetchDataTaskCountResponse } = useFetch(
+    URL_TASK_COUNT,
+    "GET"
+  );
+  const [totalTask, setTotalTask] = useState(0);
+  const [completedTask, setCompletedTask] = useState(0);
 
-    getDataTasksMeetingsType();
+  const {
+    fetchDataResponse: fetchDataCategoriesResponse,
+    error: errorCategories,
+  } = useFetch(URL_GET_CATEGORY, "GET");
+  const getCategoriesEffect = async () => {
+    return fetchDataCategoriesResponse();
+  };
+
+  const getAllTaskEffect = async () => {
+    const response = await fetchDataAllTaskResponse();
+    return response;
+  };
+
+  const getTotalTask = async () => {
+    try {
+      return await fetchDataHook(URL_TASK_COUNT, { method: "GET" });
+    } catch (error) {
+      console.log("🚀 ~ getTotalTask ~ error:", error);
+    }
+  };
+
+  useEffect(() => {
+    getCategoriesEffect().then((response) => {
+      if (response.error === null) {
+        setCategories(response.data as Categories[]);
+      }
+    });
+
+    getAllTaskEffect().then((response) => {
+      if (errorCategories === null) {
+        setAllTask(response.data as Task[]);
+      }
+    });
+
+    getTotalTask().then((response) => {
+      const dataTOWork = response as unknown as TaskListElementProps[];
+
+      let total = 0;
+      let completed = 0;
+      dataTOWork?.forEach((item) => {
+        total += item.total;
+        completed += item.completed;
+      });
+      setTotalTask(total);
+      setCompletedTask(completed);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
   useEffect(() => {
-    if (dataTaskMeetings) {
-      // setMeetingsTaskData(dataTaskMeetings);
+    if (allTask && categories?.length > 0) {
+      const categoriesStringArray = categories.map((category) => category.name);
+      const object = createObject(categoriesStringArray);
+      allTask?.forEach((taskItem) => {
+        const newTaskItem: listDataElement = {
+          id: taskItem.id.toString(),
+          description: taskItem.description,
+          status: taskItem.completed,
+          titleTask: taskItem.name,
+          categoryID: taskItem.categoryId,
+        };
+        const categoryKey = categories.find(
+          (item) => item.id === taskItem.categoryId
+        );
+        object[categoryKey ? categoryKey.name : ""].push(newTaskItem);
+      });
+      setListCategoriesData(object);
     }
-  }, [dataTaskMeetings]);
+  }, [allTask, categories]);
 
+  let { userId } = useParams();
+  const [flagView, setFlagView] = useState(false);
   useEffect(() => {
     if (userId) {
       setFlagView(true);
     }
   }, [userId]);
 
-  const personalTaskDataTemp: listDataElement[] = [
-    {
-      titleTask: "Contact Supervisor",
-      status: false,
-      description: "Discus with your supervisor",
-    },
-    {
-      titleTask: "Provide Signed Document",
-      status: false,
-      description: "Print and sign your document",
-    },
-    {
-      titleTask: "Upload Offer Signed",
-      status: false,
-      description: "Upload offer letter",
-    },
-  ];
-
-  const AdministrativeTaskDataTemp: listDataElement[] = [
-    {
-      titleTask: "Contact Supervisor",
-      status: false,
-      description: "Discus with your supervisor",
-    },
-    {
-      titleTask: "Provide Signed Document",
-      status: false,
-      description: "Print and sign your document",
-    },
-    {
-      titleTask: "Upload Offer Signed",
-      status: false,
-      description: "Upload offer letter",
-    },
-  ];
-
-  const { displayNotification } = useNotification();
-  useEffect(() => {
-    displayNotification({
-      message: "This notification displays when the app first renders!",
-    });
-  }, [displayNotification]);
-
-  const [personalTaskData, setPersonalTaskData] = useState<listDataElement[]>(
-    []
-  );
-  const [administrativeTaskData, setAdministrativeTaskData] = useState<
-    listDataElement[]
-  >([]);
-  // const [meetingsTaskData, setMeetingsTaskData] = useState<listDataElement[]>(
-  //   []
-  // );
-
-  useEffect(() => {
-    const getPersonalTaskData = () => {
-      return personalTaskDataTemp;
-    };
-
-    const getAdministrativeTaskData = () => {
-      return AdministrativeTaskDataTemp;
-    };
-
-    setTimeout(() => {
-      setPersonalTaskData(getPersonalTaskData());
-      setAdministrativeTaskData(getAdministrativeTaskData());
-    }, 5000);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const getCategoryNameById = (idCategory: number) => {
+    const response = categories.find(
+      (categoryItem) => categoryItem.id === idCategory
+    );
+    return response?.name ? response?.name : "Not Found Category";
+  };
   return (
     <div className="flex flex-col h-full mx-auto mt-4 mb-4">
       <div className="w-full flex flex-row justify-between items-center ">
-        <div className="w-3/4">
-          <UserStatus />
-        </div>
-        <div className="w-1/4 pl-4">
+        {!isLoadingTaskUser ? (
+          <UserStatus completed={completedTask} total={totalTask} />
+        ) : (
+          <Loader />
+        )}
+        <div className="pl-4">
           <TaskList />
         </div>
       </div>
-      <div className="w-full flex flex-row justify-between mt-5 items-start">
-        <div className="w-3/4">
+      <div className="w-full h-full flex flex-row justify-between mt-5 items-start relative">
+        <div className="w-[1070px]  scrollable-area ">
           <>
-            {personalTaskData.length > 0 ? (
-              <ListTask
-                disabled={flagView}
-                listData={personalTaskData}
-                setListData={setPersonalTaskData}
-                title="Personal Task"
-                key={getRandomNumber(1000000)}
-              />
+            {errorCategories !== null ? (
+              <div className="w-full flex justify-center items-center">
+                <ErrorMessage
+                  description={errorCategories.message}
+                  title={`Categories: ${errorCategories.name}`}
+                />
+              </div>
             ) : (
-              <Loader />
-            )}
-          </>
-          <>
-            {personalTaskData.length > 0 ? (
-              <ListTask
-                disabled={flagView}
-                listData={personalTaskData}
-                setListData={setPersonalTaskData}
-                title="Meetings Task"
-                key={getRandomNumber(1000000)}
-              />
-            ) : (
-              <Loader />
-            )}
-          </>
-          <>
-            {personalTaskData.length > 0 ? (
-              <ListTask
-                disabled={flagView}
-                listData={administrativeTaskData}
-                setListData={setAdministrativeTaskData}
-                title="Administrative Task"
-                key={getRandomNumber(1000000)}
-              />
-            ) : (
-              <Loader />
+              <>
+                {listCategoriesData ? (
+                  <>
+                    {Object.values(listCategoriesData).map((categoryValue) => (
+                      <ListTask
+                        disabled={flagView}
+                        listData={categoryValue}
+                        setListData={setListCategoriesData}
+                        title={getCategoryNameById(
+                          categoryValue[0]?.categoryID
+                            ? categoryValue[0]?.categoryID
+                            : 0
+                        )}
+                        key={getRandomNumber(1000000)}
+                      />
+                    ))}
+                  </>
+                ) : (
+                  <Loader />
+                )}
+              </>
             )}
           </>
         </div>
         <div className="w-1/4 pl-4">
-          <UsefullLinks />
+          <UsefulLinks />
         </div>
       </div>
     </div>
