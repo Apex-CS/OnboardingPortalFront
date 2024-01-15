@@ -13,12 +13,16 @@ import { useParams } from "react-router-dom";
 import { URL_GET_CATEGORY, URL_TASK_COUNT } from "../../resources/data/APIPath";
 import { fetchDataHook, useFetch } from "../../hooks/useFetch";
 
-export type MyObject = {
+export type CategoryArrayList = {
   [key: string]: listDataElement[];
 };
 
-function createObject(keys: string[]): MyObject {
-  const myObject: MyObject = {};
+export type MyObjectX = {
+  [key: string]: listDataElement[];
+};
+
+function createObject(keys: string[]): CategoryArrayList {
+  const myObject: CategoryArrayList = {};
 
   keys.forEach((key) => {
     myObject[key] = []; // You can set default values or leave it empty
@@ -30,7 +34,8 @@ function createObject(keys: string[]): MyObject {
 const Home = () => {
   const [categories, setCategories] = useState<Categories[]>([]);
   const [allTask, setAllTask] = useState<Task[]>([]);
-  const [listCategoriesData, setListCategoriesData] = useState<MyObject>({});
+  const [listCategoriesData, setListCategoriesData] =
+    useState<CategoryArrayList>({});
   const {
     isLoading: isLoadingTaskUser,
     fetchDataResponse: fetchDataAllTaskResponse,
@@ -173,6 +178,27 @@ const Home = () => {
                   <Loader />
                 )}
               </>
+              // <>
+              //   {listCategoriesData ? (
+              //     <>
+              //       {Object.values(listCategoriesData).map((categoryValue) => (
+              //         <ListTask
+              //           disabled={flagView}
+              //           listData={categoryValue}
+              //           setListData={setListCategoriesData}
+              //           title={getCategoryNameById(
+              //             categoryValue[0]?.categoryID
+              //               ? categoryValue[0]?.categoryID
+              //               : 0
+              //           )}
+              //           key={getRandomNumber(1000000)}
+              //         />
+              //       ))}
+              //     </>
+              //   ) : (
+              //     <Loader />
+              //   )}
+              // </>
             )}
           </>
         </div>

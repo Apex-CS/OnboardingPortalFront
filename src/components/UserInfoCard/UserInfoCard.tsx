@@ -50,7 +50,7 @@ const UserProfileInfo = ({
           </li>
           <li className="flex space-x-2">
             <span className="leading-tight">
-              <b>Amabassador:</b> {hireDetailsUsers.ambassadorId}
+              <b>Ambassador:</b> {hireDetailsUsers.ambassadorId}
             </span>
           </li>
         </ul>

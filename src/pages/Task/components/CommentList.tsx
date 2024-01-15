@@ -42,7 +42,7 @@ const CommentsList: React.FC<Props> = ({
   userId,
 }) => {
   const urlAPIPostComment = "https://onportal.azurewebsites.net/api/v1/comment";
-  const urlAPIGETComment = `https://onportal.azurewebsites.net/api/v1/comments?taskId=${taskId}`;
+  const url_API_GET_Comment = `https://onportal.azurewebsites.net/api/v1/comments?taskId=${taskId}`;
   const [commentsList, setCommentsList] = useState<Comment[]>([]);
   const {
     // data: dataPostComment,
@@ -56,7 +56,7 @@ const CommentsList: React.FC<Props> = ({
     // error: errorGETComment,
     // isLoading: loadingGETComment,
     fetchData: fetchDataGETComment,
-  } = useFetch(urlAPIGETComment, "GET");
+  } = useFetch(url_API_GET_Comment, "GET");
 
   useEffect(() => {
     fetchComments();
@@ -70,10 +70,6 @@ const CommentsList: React.FC<Props> = ({
 
   useEffect(() => {
     if (dataGETComment) {
-      console.log(
-        "🚀 ~ file: ComentList.tsx:66 ~ useEffect ~ dataGETComment:",
-        dataGETComment
-      );
       setCommentsList(dataGETComment as Comment[]);
     }
   }, [dataGETComment]);

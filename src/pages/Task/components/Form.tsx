@@ -5,7 +5,7 @@ import {
   InputText,
   InputTextArea,
 } from "../../../components";
-import ComentList from "./ComentList";
+import CommentList from "./CommentList";
 import { Provider } from "react-redux";
 import store from "../../../redux/store/store";
 import { ParamsContext, ParamsType } from "../context/FormContext";
@@ -15,21 +15,21 @@ import { URL_GET_CATEGORY } from "../../../resources/data/APIPath";
 
 type OnSubmitPromise = (updateForm: ParamsType) => Promise<void>;
 
-interface FormTaskPropst {
+interface FormTaskProps {
   onSubmitHandler: OnSubmitPromise;
   onCompleteHandler: OnSubmitPromise;
   flagPage: string;
   userId: number;
 }
 
-const inputSelecContainerClass = ` text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-2.5`;
+const inputSelectContainerClass = ` text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pr-2.5`;
 
 const FormTask = ({
   onSubmitHandler,
   onCompleteHandler,
   flagPage,
   userId,
-}: FormTaskPropst) => {
+}: FormTaskProps) => {
   const { params, setParams } = useContext(ParamsContext);
   const flagEditInputs = flagPage === "view" || flagPage === "complete";
 
@@ -48,7 +48,7 @@ const FormTask = ({
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [categories, setCategories] = useState([""]);
-  const [categori, setCategori] = useState<Categories>({} as Categories);
+  const [category, setCategory] = useState<Categories>({} as Categories);
   const [creationDate, setCreationDate] = useState(params.creationDate);
   const [completionDate, setCompletionDate] = useState(params.completionDate);
   const [arrayCategories, setArrayCategories] = useState<Categories[]>([]);
@@ -91,7 +91,7 @@ const FormTask = ({
     }
 
     if (Object.keys(params).length > 0 && arrayCategories.length > 0) {
-      setCategori(findCategoryByID(params.categoryId));
+      setCategory(findCategoryByID(params.categoryId));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params, arrayCategories]);
@@ -105,13 +105,13 @@ const FormTask = ({
 
   const onChangeEventCategory = (value: string) => {
     const categoriesArray = dataCategories as Categories[];
-    const categoriValue = categoriesArray.find(
+    const categoryValue = categoriesArray.find(
       (element) => element.description === value
     );
-    if (categoriValue) {
-      setCategori(categoriValue);
+    if (categoryValue) {
+      setCategory(categoryValue);
       const newUpdateParams = params;
-      newUpdateParams.categoryId = categoriValue.id;
+      newUpdateParams.categoryId = categoryValue.id;
       setParams(newUpdateParams);
     }
   };
@@ -145,7 +145,7 @@ const FormTask = ({
       name: name,
       taskId: taskId,
       description: description,
-      categoryId: categori.id,
+      categoryId: category.id,
       creationDate: creationDate,
       completionDate: completionDate,
       completed: completed,
@@ -180,7 +180,7 @@ const FormTask = ({
               setValue={setName}
               placeHolder="Name"
               label="Name"
-              classNameContainer={`flexitems center mt-4`}
+              classNameContainer={`flex items-center mt-4`}
               customClassInput={`w-full bg-gray-100 border border-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-60 mr-3 p-2.5`}
             />
           </div>
@@ -197,12 +197,12 @@ const FormTask = ({
             <div className="relative z-0 w-1/3 pr-4 mb-6 group">
               <InputSelect
                 disabled={flagEditInputs}
-                id="categiries-input"
+                id="categories-input"
                 label="Category"
-                value={categori?.description}
+                value={category?.description}
                 onChangeEvent={onChangeEventCategory}
                 data={categories}
-                containerClass={inputSelecContainerClass}
+                containerClass={inputSelectContainerClass}
               />
             </div>
             {params.completed === true && (
@@ -219,7 +219,7 @@ const FormTask = ({
                 <div className=" flex w-full ml-4">
                   <InputDate
                     disabled={flagEditInputs}
-                    label="Completation Date"
+                    label="Completion Date"
                     dateValue={completionDate}
                     onChangeValue={onChangeCompleteDateEvent}
                   />
@@ -249,7 +249,8 @@ const FormTask = ({
                       : "bg-green-400 hover:bg-green-600 "
                   }
                  bg-green-400 hover:bg-green-600 
-                 focus:ring-4 focus:outline-none focus:ring-grenn-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center dark:hover:bg-grenn-600 dark:focus:ring-grenn-800`}
+                 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-lg w-full sm:w-auto px-10 py-2.5 text-center
+                  dark:hover:bg-green-600 dark:focus:ring-green-800`}
               >
                 {completed ? "Cancel Task" : "Complete Task"}
               </button>
@@ -264,7 +265,7 @@ const FormTask = ({
             className="w-full flex flex-col my-2 justify-center items-center"
             id="comments-box"
           >
-            <ComentList userId={userId} taskId={taskId} />
+            <CommentList userId={userId} taskId={taskId} />
           </div>
         </div>
       </div>
