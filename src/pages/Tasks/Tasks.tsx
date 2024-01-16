@@ -19,7 +19,7 @@ import {
   PATH_VIEW_TASK_PAGE,
 } from "../../resources/data/RootPath";
 import { getRandomNumber } from "../../utils/utils";
-import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
+import { ENDPOINT_API, URL_GET_CATEGORY } from "../../resources/data/APIPath";
 
 const imageExample =
   "https://1fid.com/wp-content/uploads/2022/06/Twitter-profile-picture-4-1024x1024.jpg";
@@ -27,7 +27,7 @@ const imageExample =
 const Tasks = () => {
   const navigate = useNavigate();
   const userID = 3; // Falta definir como se obtendra este ID
-  const url = `https://onportal.azurewebsites.net/api/v1/task/user?user=${userID}`;
+  const url = `${ENDPOINT_API}/task/user?user=${userID}`;
 
   const {
     data: dataTasks,

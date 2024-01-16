@@ -6,12 +6,12 @@ import { Link } from "react-router-dom";
 import { PATH_VIEW_TASK_PAGE } from "../../resources/data/RootPath";
 import { useFetch } from "../../hooks/useFetch";
 import { useEffect, useState } from "react";
-import { URL_GET_CATEGORY } from "../../resources/data/APIPath";
+import { ENDPOINT_API, URL_GET_CATEGORY } from "../../resources/data/APIPath";
 import { Categories } from "../../types/types";
 
 const Dashboard = () => {
   const userID = 3; // Falta definir como se obtendra este ID
-  const url = `https://onportal.azurewebsites.net/api/v1/task/user?user=${userID}`;
+  const url = `${ENDPOINT_API}/task/user?user=${userID}`;
 
   const {
     data: dataTasks,

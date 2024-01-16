@@ -10,7 +10,11 @@ import { getRandomNumber } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import { ErrorMessage, Loader } from "../../components";
 import { useParams } from "react-router-dom";
-import { URL_GET_CATEGORY, URL_TASK_COUNT } from "../../resources/data/APIPath";
+import {
+  ENDPOINT_API,
+  URL_GET_CATEGORY,
+  URL_TASK_COUNT,
+} from "../../resources/data/APIPath";
 import { fetchDataHook, useFetch } from "../../hooks/useFetch";
 
 export type CategoryArrayList = {
@@ -39,10 +43,7 @@ const Home = () => {
   const {
     isLoading: isLoadingTaskUser,
     fetchDataResponse: fetchDataAllTaskResponse,
-  } = useFetch(
-    "https://onportal.azurewebsites.net/api/v1/task/user?user=3",
-    "GET"
-  );
+  } = useFetch(`${ENDPOINT_API}/task/user?user=${3}`, "GET");
 
   const { fetchDataResponse: fetchDataTaskCountResponse } = useFetch(
     URL_TASK_COUNT,
