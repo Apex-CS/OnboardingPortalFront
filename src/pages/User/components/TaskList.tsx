@@ -64,11 +64,11 @@ const TaskList = () => {
     }
   }, [dataTaskCount]);
   return (
-    <div className="flex h-60 w-[340px] items-center justify-center flex-col border rounded-t-lg border-zinc-300">
+    <div className="flex h-60 w-[340px] items-center justify-center flex-col border rounded-t-lg border-zinc-300 overflow-y-auto overflow-hidden">
       {errorData === null ? (
-        <ul className="mx-1 bg-white rounded-t-lg divide-y divide-zinc-200 px-2">
+        <ul className="mx-2 my-1 w-full bg-white rounded-t-lg divide-y divide-zinc-200 px-2">
           {listTaskDataCount.map((item) => (
-            <TaskElement item={item} />
+            <TaskElement key={`task-element-${item.category}`} item={item} />
           ))}
         </ul>
       ) : (

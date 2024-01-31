@@ -64,7 +64,7 @@ function Footer() {
             </h2>
             <ul className="text-white">
               {dataFollowUs.map((item, index) => (
-                <li key={item.key}>
+                <li key={`footer-element-${index}`}>
                   <a href={item.href} className="hover:underline">
                     {item.title}
                   </a>
