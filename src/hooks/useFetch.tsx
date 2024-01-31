@@ -12,6 +12,12 @@ interface FetchDataResponse<T> {
   fetchDataResponse: (body?: object | null) => Promise<ReturnData>;
 }
 
+interface FetchOptions {
+  method?: string;
+  headers?: { [key: string]: string };
+  // other options...
+}
+
 export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +39,7 @@ export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
       const responseData: T = await response.json();
       setData(responseData);
     } catch (error) {
-      console.error("🚀 ~ file: useFetch.tsx:73 ~ fetchData ~ error:", error);
+      console.error("🚀 ~ fetchData ~ error:", error);
       setError(error);
     } finally {
       setIsLoading(false);
@@ -60,20 +66,18 @@ export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
         const responseData: T = await response.json();
         returnResponse.error = JSON.parse(JSON.stringify(responseData));
       }
-
-      console.log(
-        "🚀 ~ file: useFetch.tsx:64 ~ fetchDataOtro ~ returnResponse:",
-        returnResponse
-      );
       return returnResponse;
     } catch (error: any) {
-      const errorResponse = JSON.stringify(error);
-      returnResponse.error = JSON.parse(errorResponse);
-      console.log(
-        "🚀 ~ file: useFetch.tsx:58 ~ fetchDataOtro ~ errorResponse:",
-        errorResponse
-      );
-      console.error("🚀 ~ file: useFetch.tsx:73 ~ fetchData ~ error:", error);
+      const errorObject: Error = {
+        cause: (error as Error).cause,
+        name: (error as Error).name,
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+      returnResponse.error = JSON.stringify(errorObject);
+      console.error("🚀 ~ fetchDataResponse ~ error:", errorObject);
+
+      setError(errorObject);
       return returnResponse;
     } finally {
       setIsLoading(false);
@@ -81,4 +85,15 @@ export function useFetch<T>(url: string, method: string): FetchDataResponse<T> {
     }
   };
   return { data, isLoading, error, fetchData, fetchDataResponse };
+}
+
+export async function fetchDataHook<T>(
+  url: string,
+  options?: FetchOptions
+): Promise<T> {
+  const response = await fetch(url, options);
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  return response.json();
 }

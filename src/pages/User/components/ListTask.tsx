@@ -1,6 +1,7 @@
-import { getRandomNumber } from "../../../utils/utils";
+import { ENDPOINT_API } from "../../../resources/data/APIPath";
 
 type listDataElement = {
+  taskID: number;
   titleTask: string;
   status: boolean;
   description: string;
@@ -9,28 +10,36 @@ type listDataElement = {
 interface ListTaskProps {
   title: string;
   listData: listDataElement[];
-  setListData: React.Dispatch<React.SetStateAction<listDataElement[]>>;
   disabled?: boolean;
 }
 
-const ListTask = ({
-  title,
-  listData,
-  setListData,
-  disabled = false,
-}: ListTaskProps) => {
-  const handlerInputCheck = (
+const ListTask = ({ title, listData }: ListTaskProps) => {
+  const createUrlComplete = (taskId: string, isCompleted: boolean) => {
+    const urlComplete = taskId
+      ? `${ENDPOINT_API}/task/completed?taskId=${taskId}&isCompleted=${isCompleted}`
+      : "";
+    return urlComplete;
+  };
+
+  const handlerInputCheck = async (
     event: React.ChangeEvent<HTMLInputElement>,
     itemList: listDataElement
   ) => {
-    const newArray = listData.map((item) => {
-      if (item.titleTask === itemList.titleTask) {
-        item.status = !item.status;
-      }
-      return item;
-    });
-    setListData(newArray);
+    const isCompleted = !itemList.status;
+    const urlToCompleteTask = createUrlComplete(
+      itemList.taskID.toString(),
+      isCompleted
+    );
+    const params = {
+      method: "PATCH",
+      headers: {
+        accept: "application/json",
+      },
+    };
+
+    await fetch(urlToCompleteTask, params);
     event.preventDefault();
+    window.location.reload();
   };
 
   return (
@@ -41,7 +50,7 @@ const ListTask = ({
       <ul className="mx-1 bg-white rounded-t-lg divide-y divide-zinc-200">
         {listData.map((itemList, index) => (
           <li
-            key={getRandomNumber()}
+            key={`list-task-${itemList.titleTask}-${index}`}
             className="h-16 flex flex-row items-center justify-stretch"
           >
             <div className="flex w-5/6 flex-col">
@@ -58,7 +67,7 @@ const ListTask = ({
               <input
                 id="link-checkbox"
                 type="checkbox"
-                disabled={disabled}
+                disabled={itemList.status}
                 checked={itemList.status}
                 value={itemList.status ? 1 : 0}
                 onChange={(e) => handlerInputCheck(e, itemList)}

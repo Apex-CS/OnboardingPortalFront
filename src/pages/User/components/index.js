@@ -1,5 +1,5 @@
 import TaskList from "./TaskList";
-import UsefullLinks from "./UsefullLinks";
+import UsefulLinks from "./UsefulLinks";
 import UserStatus from "./UserStatus";
 
-export {UserStatus, UsefullLinks, TaskList};
+export { UserStatus, UsefulLinks, TaskList };

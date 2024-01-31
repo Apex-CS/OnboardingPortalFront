@@ -1,8 +1,13 @@
 import { GridRowsProp } from "@mui/x-data-grid";
-import { FormTaskData } from "../../types/types";
+import { Categories, FormTaskData } from "../../types/types";
 import { getRandomDate } from "../../utils/utils";
 
-const CategoriExampleData = ["Training", "Office", "External", "Other"];
+const CategoryExampleData: Categories[] = [
+  { description: "Training", id: 3, name: "Training" },
+  { description: "Office", id: 2, name: "Office" },
+  { description: "External", id: 4, name: "External" },
+  { description: "Other", id: 6, name: "Other" },
+];
 
 const FormTaskViewExampleData = {};
 
@@ -28,7 +33,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 1,
     name: "Percipio Training",
     description: "Finish the Training in Percipio",
-    categori: "Office",
+    category: 3,
     creationDate: getRandomDate(),
     completionDate: new Date(2023, 12, 23),
     completed: true,
@@ -38,7 +43,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 2,
     name: "Fun Event",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 2,
     creationDate: getRandomDate(),
     completionDate: getRandomDate(),
     completed: true,
@@ -48,7 +53,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 3,
     name: "One & One meeting",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 4,
     creationDate: getRandomDate(),
     completionDate: getRandomDate(),
     completed: false,
@@ -58,7 +63,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 4,
     name: "Percipio Training",
     description: "Finish TypeScript courses for cetifications",
-    categori: "Training",
+    category: 3,
     creationDate: new Date(),
     completionDate: new Date(),
     completed: false,
@@ -68,7 +73,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 5,
     name: "Required Fill",
     description: "Finish the Training in Percipio",
-    categori: "Office",
+    category: 3,
     creationDate: new Date(),
     completionDate: new Date(2023, 12, 23),
     completed: false,
@@ -78,7 +83,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 6,
     name: "Percipio Training",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 4,
     creationDate: getRandomDate(),
     completionDate: new Date(),
     completed: true,
@@ -88,7 +93,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 7,
     name: "Create NanoDegree",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 3,
     creationDate: new Date(),
     completionDate: new Date(),
     completed: false,
@@ -98,7 +103,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 8,
     name: "Vacations Request",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 6,
     creationDate: new Date(),
     completionDate: getRandomDate(),
     completed: true,
@@ -108,7 +113,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 9,
     name: "Percipio Training",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 3,
     creationDate: new Date(),
     completionDate: getRandomDate(),
     completed: true,
@@ -118,7 +123,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 10,
     name: "Training",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 6,
     creationDate: new Date(),
     completionDate: new Date(),
     completed: true,
@@ -128,7 +133,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 11,
     name: "Training",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 3,
     creationDate: getRandomDate(),
     completionDate: new Date(),
     completed: true,
@@ -138,7 +143,7 @@ const RowsTaskExample: GridRowsProp = [
     id: 12,
     name: "English Training",
     description: "Finish the Training in Percipio",
-    categori: "Training",
+    category: 6,
     creationDate: getRandomDate(),
     completionDate: getRandomDate(),
     completed: true,
@@ -146,8 +151,15 @@ const RowsTaskExample: GridRowsProp = [
   },
 ];
 
+export const GOOD_ANSWER_TASK =
+  "Great job completing the task! Your dedication and efficiency are commendable. If you have any questions or need further assistance, feel free to reach out. Keep up the excellent work!";
+export const REGULAR_ANSWER_TASK =
+  "Thank you for completing the task. If you have any feedback or encounter any challenges, please let us know. We appreciate your efforts and are here to support you in any way we can.";
+export const BAD_ANSWER_TASK =
+  "I've noticed some challenges in the completion of the task. Let's discuss the difficulties you faced and work together to find a solution. Your improvement is important to us, and we are here to support you through any obstacles you may encounter.";
+
 export {
-  CategoriExampleData,
+  CategoryExampleData,
   FormTaskEditExampleData,
   FormTaskViewExampleData,
   RowsTaskExample,

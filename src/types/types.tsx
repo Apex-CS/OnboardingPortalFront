@@ -2,9 +2,11 @@ import { RouteProps } from "react-router-dom";
 import { Role } from "./users";
 
 export type listDataElement = {
+  taskID: number;
   titleTask: string;
   status: boolean;
   description: string;
+  categoryID?: number;
 };
 
 export interface ListTaskProps {
@@ -65,10 +67,10 @@ export interface FormTaskData {
 }
 
 export interface Task {
-  id: number;
+  taskId: number;
   name: string;
   description: string;
-  categori: string;
+  categoryId: number;
   creationDate: Date;
   completionDate: Date;
   completed: boolean;
@@ -118,4 +120,5 @@ export interface IRedirectRules {
 export interface ReturnData {
   data: {};
   error: {};
+  ok?: boolean;
 }

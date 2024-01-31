@@ -17,6 +17,7 @@ import InputCheckBox from "./Inputs/InputCheckbox/InputCheckbox";
 import StarRating from "./StarRanking/StarRanking";
 import UserProfileInfo from "./UserInfoCard/UserInfoCard";
 import Modal from "./Modal/Modal";
+import ErrorMessage from "./Error/ErrorMessage";
 
 export {
   Footer,
@@ -38,4 +39,5 @@ export {
   StarRating,
   UserProfileInfo,
   Modal,
+  ErrorMessage,
 };

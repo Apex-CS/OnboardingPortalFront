@@ -1,13 +1,13 @@
-import { ICPOINTS_PAGE } from "../../../resources/data/Paths";
+import { IC_POINTS_PAGE } from "../../../resources/data/Paths";
 import { getRandomNumber } from "../../../utils/utils";
 
-interface UsefullLinksItemProps {
+interface UsefulLinksItemProps {
   title: string;
   url: string;
 }
 
-const UsefullLinks = () => {
-  const linksData: UsefullLinksItemProps[] = [
+const UsefulLinks = () => {
+  const linksData: UsefulLinksItemProps[] = [
     {
       title: "Request vacations",
       url: "/",
@@ -22,7 +22,7 @@ const UsefullLinks = () => {
     },
     {
       title: "Capture IC points",
-      url: ICPOINTS_PAGE,
+      url: IC_POINTS_PAGE,
     },
     {
       title: "Send a message to your supervisor",
@@ -33,7 +33,7 @@ const UsefullLinks = () => {
   return (
     <div className="flex flex-col border rounded-t-lg border-zinc-300">
       <div className="flex items-center justify-around rounded-t-lg bg-sky-500">
-        <h1 className="text-3xl py-1 text-white">Usefull Links</h1>
+        <h1 className="text-3xl py-1 text-white">Useful Links</h1>
       </div>
       <div>
         <ul className="mx-1 bg-white rounded-t-lg divide-y divide-zinc-200">
@@ -53,4 +53,4 @@ const UsefullLinks = () => {
   );
 };
 
-export default UsefullLinks;
+export default UsefulLinks;
