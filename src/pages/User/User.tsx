@@ -6,7 +6,6 @@ import {
 } from "../../types/types";
 import { TaskList, UsefulLinks, UserStatus } from "./components";
 import ListTask from "./components/ListTask";
-import { getRandomNumber } from "../../utils/utils";
 import { useEffect, useState } from "react";
 import { ErrorMessage, Loader } from "../../components";
 import { useParams } from "react-router-dom";
@@ -45,10 +44,6 @@ const Home = () => {
     fetchDataResponse: fetchDataAllTaskResponse,
   } = useFetch(`${ENDPOINT_API}/task/user?user=${3}`, "GET");
 
-  const { fetchDataResponse: fetchDataTaskCountResponse } = useFetch(
-    URL_TASK_COUNT,
-    "GET"
-  );
   const [totalTask, setTotalTask] = useState(0);
   const [completedTask, setCompletedTask] = useState(0);
 
@@ -69,14 +64,15 @@ const Home = () => {
     try {
       return await fetchDataHook(URL_TASK_COUNT, { method: "GET" });
     } catch (error) {
-      console.log("🚀 ~ getTotalTask ~ error:", error);
+      console.error("🚀 ~ getTotalTask ~ error:", error);
     }
   };
 
   useEffect(() => {
     getCategoriesEffect().then((response) => {
-      if (response.error === null) {
-        setCategories(response.data as Categories[]);
+      const dataResponse = response.data as Categories[];
+      if (dataResponse.length > 0) {
+        setCategories(dataResponse);
       }
     });
 
@@ -101,12 +97,12 @@ const Home = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    if (allTask && categories?.length > 0) {
+    if (allTask.length > 0 && categories?.length > 0) {
       const categoriesStringArray = categories.map((category) => category.name);
       const object = createObject(categoriesStringArray);
       allTask?.forEach((taskItem) => {
         const newTaskItem: listDataElement = {
-          id: taskItem.id.toString(),
+          taskID: taskItem.taskId,
           description: taskItem.description,
           status: taskItem.completed,
           titleTask: taskItem.name,
@@ -135,6 +131,7 @@ const Home = () => {
     );
     return response?.name ? response?.name : "Not Found Category";
   };
+
   return (
     <div className="flex flex-col h-full mx-auto mt-4 mb-4">
       <div className="w-full flex flex-row justify-between items-center ">
@@ -165,13 +162,12 @@ const Home = () => {
                       <ListTask
                         disabled={flagView}
                         listData={categoryValue}
-                        setListData={setListCategoriesData}
                         title={getCategoryNameById(
                           categoryValue[0]?.categoryID
                             ? categoryValue[0]?.categoryID
                             : 0
                         )}
-                        key={getRandomNumber(1000000)}
+                        key={`list-task-category-${categoryValue[0]?.categoryID}`}
                       />
                     ))}
                   </>
@@ -179,27 +175,6 @@ const Home = () => {
                   <Loader />
                 )}
               </>
-              // <>
-              //   {listCategoriesData ? (
-              //     <>
-              //       {Object.values(listCategoriesData).map((categoryValue) => (
-              //         <ListTask
-              //           disabled={flagView}
-              //           listData={categoryValue}
-              //           setListData={setListCategoriesData}
-              //           title={getCategoryNameById(
-              //             categoryValue[0]?.categoryID
-              //               ? categoryValue[0]?.categoryID
-              //               : 0
-              //           )}
-              //           key={getRandomNumber(1000000)}
-              //         />
-              //       ))}
-              //     </>
-              //   ) : (
-              //     <Loader />
-              //   )}
-              // </>
             )}
           </>
         </div>
