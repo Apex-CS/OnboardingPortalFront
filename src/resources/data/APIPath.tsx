@@ -1,6 +1,5 @@
 // MAIN ENDPOINT:
-const ENDPOINT_API =
-  "http://ec2-54-80-62-108.compute-1.amazonaws.com:8080/api/v1";
+const ENDPOINT_API = "https://onportal.ddns.net/api/v1";
 
 const ENDPOINT_ADD_TAG_POST = "/tags";
 const ENDPOINT_GET_TAGS_GET = "/tags";
