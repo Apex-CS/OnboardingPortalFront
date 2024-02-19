@@ -155,7 +155,7 @@ const Home = () => {
                 />
               </div>
             ) : (
-              <>
+              <div className=" overflow-y-scroll h-[600px]">
                 {listCategoriesData ? (
                   <>
                     {Object.values(listCategoriesData).map((categoryValue) => (
@@ -174,7 +174,7 @@ const Home = () => {
                 ) : (
                   <Loader />
                 )}
-              </>
+              </div>
             )}
           </>
         </div>
